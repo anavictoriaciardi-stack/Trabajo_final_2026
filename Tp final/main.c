@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "huesped.h"
 
 int main()
 {
     printf("hola mundo!\n");
-    ///hola
-    ///hola
     return 0;
 }
