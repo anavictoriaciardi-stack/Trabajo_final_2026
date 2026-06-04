@@ -13,15 +13,10 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include "habitacion.h"
-
-#include <stdio.h>
-#include <stdlib.h>
 #include "string.h"
 #include "habitacion.h"
 
-int altaHabitacion ()
-{
+int altaHabitacion (){
     FILE *archivo = fopen("habitaciones", "ab+");
     stHabitacion habitacion;
     int continuar = 0;
@@ -30,10 +25,9 @@ int altaHabitacion ()
         char extra;
         int existe = 0;
         printf("\nNumero de habitacion: ");
-            if (scanf("%d%c", &nro, &extra) != 2 || extra != '\n'){
+        if (scanf("%d", &nro) != 1){
             printf("Formato no valido\n");
-            scanf("%*[^\n]");
-            scanf("%*c");
+            while (getchar() != '\n');
         }
         else{
             if (nro < 0){
@@ -57,36 +51,44 @@ int altaHabitacion ()
             }
         }
     }
-    continuar=0;
-    while (continuar==0){
-        int tipo;
-        char extra;
-        printf("\nTipo de habitacion: \n1-Simple \n2-Doble \n3-Suite \nIngrese el tipo: ");
-        if (scanf("%d%c", &tipo, &extra) != 2 || extra != '\n'){
-            printf("Formato no valido\n");
-            scanf("%*[^\n]");
-            scanf("%*c");
+
+continuar=0;
+while (continuar==0)
+{
+    int tipo;
+    char extra;
+    printf("\nTipo de habitacion: \n1-Simple \n2-Doble \n3-Suite \nIngrese el tipo: ");
+    if (scanf("%d%c", &tipo, &extra) != 2 || extra != '\n')
+    {
+        printf("Formato no valido\n");
+        scanf("%*[^\n]");
+        scanf("%*c");
+    }
+    else
+    {
+        if (tipo==1)
+        {
+            strcpy(habitacion.tipo, "simple");
+            continuar=1;
         }
-        else {
-            if (tipo==1){
-                strcpy(habitacion.tipo, "simple");
-                continuar=1;
-            }
-            else if (tipo==2){
-                strcpy(habitacion.tipo, "doble");
-                continuar=1;
-            }
-            else if (tipo==3){
-                strcpy(habitacion.tipo, "suite");
-                continuar=1;
-            }
-            else{
-                printf("\nDato ingresado no valido, intente nuevamente\n");
-            }
+        else if (tipo==2)
+        {
+            strcpy(habitacion.tipo, "doble");
+            continuar=1;
+        }
+        else if (tipo==3)
+        {
+            strcpy(habitacion.tipo, "suite");
+            continuar=1;
+        }
+        else
+        {
+            printf("\nDato ingresado no valido, intente nuevamente\n");
         }
     }
-    fwrite(&habitacion, sizeof(stHabitacion), 1, archivo);
-    fclose(archivo);
+}
+fwrite(&habitacion, sizeof(stHabitacion), 1, archivo);
+fclose(archivo);
 
-    return 1;
+return 1;
 }
