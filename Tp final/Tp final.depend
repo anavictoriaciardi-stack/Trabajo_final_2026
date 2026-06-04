@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1780539183 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.c
+	<stdio.h>
+	<stdlib.h>
+	"habitacion.h"
+	<stdio.h>
+	<stdlib.h>
+	"habitacion.h"
+
+1780327166 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\huesped.c
+
+1780327166 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.c
+
+1780538341 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.h
+
+1780539062 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\main.c
+	<stdio.h>
+	<stdlib.h>
+	"huesped.h"
+	"habitacion.h"
+	"reservas.h"
+
+1780325977 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\huesped.h
+
+1780326024 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.h
+

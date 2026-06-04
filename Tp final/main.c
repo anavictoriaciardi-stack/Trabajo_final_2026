@@ -7,5 +7,6 @@
 int main()
 {
     printf("hola mundo!\n");
+    int a= altaHabitacion();
     return 0;
 }
