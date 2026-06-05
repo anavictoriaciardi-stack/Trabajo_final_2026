@@ -1,10 +1,11 @@
 /*
-    Habitacion
+    Habitacion (en habitacion.h)
     int número
     char tipo [ ](simple/doble/suite)
     int precio por noche
     char estado (libre/ocupada)
 
+    cosas que tengo que hacer:
     alta: agregar habitacion
     baja: eliminar habitacion
     modificacion: cambiar precio/ tipo
@@ -15,10 +16,6 @@
 #include <stdlib.h>
 #include "string.h"
 #include "habitacion.h"
-
-float precioSimple=90000;
-float precioDoble=110000;
-float precioSuite=160000;
 
 int altaHabitacion(){
     FILE *archivo = fopen("habitaciones", "ab+");
@@ -33,10 +30,10 @@ int altaHabitacion(){
         int nro = 0;
         int existe = 0;
         printf("\nNumero de habitacion: ");
-        if (scanf("%d", &nro) != 1 || getchar() != '\n') {
+        if (scanf("%d", &nro) != 1 || getchar() != '\n'){
             printf("Formato no valido\n");
             while (getchar() != '\n');
-        //uso getchar() para corroborrar que sea solo numeros y limpiar el buffer
+            //uso getchar() para corroborrar que sea solo numeros y limpiar el buffer
         }
         else{
             if (nro < 0){
@@ -68,24 +65,43 @@ int altaHabitacion(){
     while (continuar == 0){
         int tipo;
         printf("\nTipo de habitacion: \n1-Simple \n2-Doble \n3-Suite \nIngrese el tipo: ");
-        if (scanf("%d", &tipo) != 1 || getchar() != '\n') {
+        if (scanf("%d", &tipo) != 1 || getchar() != '\n'){
             printf("Formato no valido\n");
             while (getchar() != '\n');
         }
         else{
+            stPrecios auxPrecios;
+            FILE *archiPrecios = fopen("precios", "rb");
+
+            if (archiPrecios == NULL){
+                auxPrecios.simple = 90000;
+                auxPrecios.doble = 110000;
+                auxPrecios.suite = 160000;
+
+                archiPrecios = fopen("precios", "wb");
+                if (archiPrecios != NULL){
+                    fwrite(&auxPrecios, sizeof(stPrecios), 1, archiPrecios);
+                    fclose(archiPrecios);
+                }
+            }
+            else{
+                fread(&auxPrecios, sizeof(stPrecios), 1, archiPrecios);
+                fclose(archiPrecios);
+            }
+
             if (tipo == 1){
                 strcpy(habitacion.tipo, "simple");
-                habitacion.precioxNoche==precioSimple;
+                habitacion.precioxNoche = auxPrecios.simple;
                 continuar = 1;
             }
             else if (tipo == 2){
                 strcpy(habitacion.tipo, "doble");
-                habitacion.precioxNoche==precioDoble;
+                habitacion.precioxNoche = auxPrecios.doble;
                 continuar = 1;
             }
             else if (tipo == 3){
                 strcpy(habitacion.tipo, "suite");
-                habitacion.precioxNoche==precioSuite;
+                habitacion.precioxNoche = auxPrecios.suite;
                 continuar = 1;
             }
             else{
@@ -96,13 +112,17 @@ int altaHabitacion(){
     /*Para simplicar el proceso, el precio se define arriba al definir el tipo
     y al usuario se le da la opcion de actualizarlo en otra funcion de modificacion*/
 
-        printf("\nEl precio de la habitacion se define por el tipo de habitacion. Si desea cambiar el precio del tipo de habitacion,\nvuelva al menu de gestion de habitaciones y elija la opcion modificar datos y luego modificar precios.");
+    printf("\nEl precio de la habitacion se define por el tipo de habitacion.\n Si desea cambiar el precio del tipo de habitacion,\nvuelva al menu de gestion de habitaciones y elija la opcion modificar datos y luego modificar precios.");
 
     /*Al crear la habitacion auotomaticamente se establece como libre*/
-        strcpy(habitacion.estado, "Libre");
+
+    strcpy(habitacion.estado, "Libre");
 
     fwrite(&habitacion, sizeof(stHabitacion), 1, archivo);
     fclose(archivo);
     return 1;
 }
+
+
+
 
