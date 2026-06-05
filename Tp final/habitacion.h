@@ -4,8 +4,8 @@
 typedef struct{
     int numero;
     char tipo[10];//(simple/doble/suite)
-    int precioxNoche;
-    char estado; //(libre/ocupada)
+    float precioxNoche;
+    char estado[8]; //(libre/ocupada)
 }stHabitacion;
 
 int altaHabitacion ();

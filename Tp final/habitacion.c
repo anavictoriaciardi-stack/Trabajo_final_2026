@@ -16,18 +16,27 @@
 #include "string.h"
 #include "habitacion.h"
 
-int altaHabitacion (){
+float precioSimple=90000;
+float precioDoble=110000;
+float precioSuite=160000;
+
+int altaHabitacion(){
     FILE *archivo = fopen("habitaciones", "ab+");
     stHabitacion habitacion;
+
+    /* Defino e inicializo 'continuar' para los diferentes while
+    En primera instancia defino el numero de habitacion, corroborra que sea solo un numero
+    y que si ya hay habitacion con ese numero que no se pueda cargar*/
+
     int continuar = 0;
     while (continuar == 0){
         int nro = 0;
-        char extra;
         int existe = 0;
         printf("\nNumero de habitacion: ");
-        if (scanf("%d", &nro) != 1){
+        if (scanf("%d", &nro) != 1 || getchar() != '\n') {
             printf("Formato no valido\n");
             while (getchar() != '\n');
+        //uso getchar() para corroborrar que sea solo numeros y limpiar el buffer
         }
         else{
             if (nro < 0){
@@ -52,43 +61,48 @@ int altaHabitacion (){
         }
     }
 
-continuar=0;
-while (continuar==0)
-{
-    int tipo;
-    char extra;
-    printf("\nTipo de habitacion: \n1-Simple \n2-Doble \n3-Suite \nIngrese el tipo: ");
-    if (scanf("%d%c", &tipo, &extra) != 2 || extra != '\n')
-    {
-        printf("Formato no valido\n");
-        scanf("%*[^\n]");
-        scanf("%*c");
-    }
-    else
-    {
-        if (tipo==1)
-        {
-            strcpy(habitacion.tipo, "simple");
-            continuar=1;
-        }
-        else if (tipo==2)
-        {
-            strcpy(habitacion.tipo, "doble");
-            continuar=1;
-        }
-        else if (tipo==3)
-        {
-            strcpy(habitacion.tipo, "suite");
-            continuar=1;
-        }
-        else
-        {
-            printf("\nDato ingresado no valido, intente nuevamente\n");
-        }
-    }
-}
-fwrite(&habitacion, sizeof(stHabitacion), 1, archivo);
-fclose(archivo);
+    /*Vuelvo continuar a 0 para seguir con el tipo y no tener que inicializar mas variables con la misma funcion
+    En este caso, el usuario tiene que ingresar una de la opciones (int) para establecer de que tipo es la habitacion*/
 
-return 1;
+    continuar = 0;
+    while (continuar == 0){
+        int tipo;
+        printf("\nTipo de habitacion: \n1-Simple \n2-Doble \n3-Suite \nIngrese el tipo: ");
+        if (scanf("%d", &tipo) != 1 || getchar() != '\n') {
+            printf("Formato no valido\n");
+            while (getchar() != '\n');
+        }
+        else{
+            if (tipo == 1){
+                strcpy(habitacion.tipo, "simple");
+                habitacion.precioxNoche==precioSimple;
+                continuar = 1;
+            }
+            else if (tipo == 2){
+                strcpy(habitacion.tipo, "doble");
+                habitacion.precioxNoche==precioDoble;
+                continuar = 1;
+            }
+            else if (tipo == 3){
+                strcpy(habitacion.tipo, "suite");
+                habitacion.precioxNoche==precioSuite;
+                continuar = 1;
+            }
+            else{
+                printf("\nDato ingresado no valido, intente nuevamente\n");
+            }
+        }
+    }
+    /*Para simplicar el proceso, el precio se define arriba al definir el tipo
+    y al usuario se le da la opcion de actualizarlo en otra funcion de modificacion*/
+
+        printf("\nEl precio de la habitacion se define por el tipo de habitacion. Si desea cambiar el precio del tipo de habitacion,\nvuelva al menu de gestion de habitaciones y elija la opcion modificar datos y luego modificar precios.");
+
+    /*Al crear la habitacion auotomaticamente se establece como libre*/
+        strcpy(habitacion.estado, "Libre");
+
+    fwrite(&habitacion, sizeof(stHabitacion), 1, archivo);
+    fclose(archivo);
+    return 1;
 }
+

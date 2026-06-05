@@ -9,7 +9,7 @@ int main()
     int opcion1;
     printf("----------HOTEL 'LAS SOBREVIVIENTES'----------");
     printf("\n **|Bienvenido al sistema de gestion del hotel 'las sobrevivientes'. A continuacion podra elegir que acciones realizar.|**");
-    printf("\n1- Gestionar Huespedes \n2- Gestionar Habitaciones \n3- Gestionar Reservas \n0- salir del sistema de gestion");
+    printf("\n1- Gestionar Huespedes \n2- Gestionar Habitaciones \n3- Gestionar Reservas \n0- salir del sistema de gestion \nOpcion:");
     scanf("%i", &opcion1);
     switch (opcion1){
     case 1:
@@ -21,7 +21,7 @@ int main()
         int opcion1hb;
         printf("\n GESTION DE HABITACIONES\n");
         printf("\n aca las opciones para que gestione las habitaciones del hotel: \n");
-        printf("\n1-Dar de alta una habitacion \n2-Dar de baja una habitacion \n3-Modificar datos de una habitacion \n4-Busqueda Especifica \n5-Ver listado \n0- Volver al menu principal");
+        printf("\n1-Dar de alta una habitacion \n2-Dar de baja una habitacion \n3-Modificar datos de una habitacion \n4-Busqueda Especifica \n5-Ver listado \n0- Volver al menu principal \n Opcion: ");
         scanf("%i",&opcion1hb);
         switch(opcion1hb){
         case 1:
