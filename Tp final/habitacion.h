@@ -15,5 +15,5 @@ typedef struct {
 } stPrecios;
 
 int altaHabitacion ();
-
+int listadoCompleto ();
 #endif // HABITACION_H_INCLUDED

@@ -38,6 +38,9 @@ int main(){
                 case 4:
                     break;
                 case 5:
+                    printf("-----Ver listado Completo-----\n");
+                    listadoCompleto();
+                    printf("\n");
                     break;
                 case 0:
                     break;
@@ -46,8 +49,6 @@ int main(){
                     break;
                 }
             }
-
-
 
             break;
         case 3:
