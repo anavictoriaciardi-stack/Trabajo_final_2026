@@ -7,7 +7,8 @@
 int main()
 {
      printf("Entre al main\n");
-    int opcion1=1, opHuesped;
+    int opcion1=1, opHuesped, val;
+    char dniBuscar[8];
     printf("----------HOTEL 'LAS SOBREVIVIENTES'----------");
     printf("\n **|Bienvenido al sistema de gestion del hotel 'las sobrevivientes'. A continuacion podra elegir que acciones realizar.|**");
     while (opcion1!=0)
@@ -37,6 +38,25 @@ int main()
                     altaHuesped();
                     break;
                 case 2:
+                    do{
+                        val=1;
+                        printf("Ingrese el DNI del huesped (8 caracteres): \n");
+                        fflush(stdin);
+                        gets(dniBuscar);
+                        for(int i=0; i<8; i++){
+                            if(dniBuscar[i]<'0' || dniBuscar[i]>'9'){
+                                val=0;
+                            }
+                        }
+                        if (val==0){
+                            printf("\n--DNI invalido--\n");
+                            printf("\nVuela a ingresarlo correctamente\n");
+                        }
+
+                     }while(val==0);
+                     if (bajaHuesped(dniBuscar)){
+                        printf("\n--HUESPED ELMINADO--\n");
+                     }
                     break;
                 case 3:
                     break;

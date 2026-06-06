@@ -5,8 +5,6 @@
     int teléfono
     char email []
 
-    alta: registrar huesped
-    baja: eliminar huesped
     modificacion: editar datos
     consulta: buscar por DNI
     listado: todos o por apellido
@@ -17,6 +15,8 @@
 #include <string.h>
 
 int altaHuesped();
+int buscarPosxDNI(char DNIbus[]);
+int bajaHuesped(char DNIbus[]);
 int altaHuesped()
 {
     FILE *arch=fopen("archHuesped", "ab");
@@ -91,9 +91,66 @@ int altaHuesped()
     return 0;
 }
 
+int buscarPosxDNI(char DNIbus[]){
+FILE *arch=fopen("archHuesped", "rb");
+stHuesped husped;
+int pos=0;
+if (arch==NULL){
+    return -1;
+}
+
+while(fread(&husped, sizeof(stHuesped), 1, arch)>0){
+    if(strcmp(husped.DNI, DNIbus)==0){
+        fclose(arch);
+        return pos;
+    }
+    pos++;
+}
+fclose(arch);
+return -1;
+}
+
+int bajaHuesped(char DNIbus[]){
+FILE *arch=fopen("archHuesped", "rb");
+FILE *archA=fopen("archAux", "wb");
+stHuesped huesped;
+int pos=buscarPosxDNI(DNIbus);
+
+if (pos==-1){
+    printf("\n--No existe husped con ese DNI--");
+    return 0;
+}
+while(fread(&huesped, sizeof(stHuesped),1, arch)>0){
+        if(strcmp(huesped.DNI, DNIbus)!=0){
+            fwrite(&huesped, sizeof(stHuesped), 1,archA);
+        }
+
+}
+fclose(arch);
+fclose(archA);
+remove("archHuesped");
+rename("archAux", "archHuesped");
+
+return 1;
+}
+
+/*int modificarDatos(char dniBus[] ){
+FILE *arch=fopen("archHuesped", "rb+");
+stHuesped huesped;
+
+int pos=buscarPosxDNI(dniBus);
+if(pos==-1){
+    return 0;
+}
+
+fseek(arch, pos*sizeof(stHuesped),SEEK_SET );
+fread(&huesped, sizeof(stHuesped), 1, arch);
 
 
 
+fclose(arch);
+return 1;
+}*/
 
 
 
