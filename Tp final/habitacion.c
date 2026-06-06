@@ -122,7 +122,72 @@ int altaHabitacion(){
     fclose(archivo);
     return 1;
 }
+int listadoCompleto (){
+    FILE *archivo = fopen("habitaciones", "rb");
+    stHabitacion habitacion;
+    while (fread(&habitacion, sizeof(stHabitacion), 1, archivo) > 0){
+        printf("\n------------------------------------------------");
+        printf("\nNumero de habitacion: %i", habitacion.numero);
+        printf("\nTipo de habitacion: %s", habitacion.tipo);
+        printf("\nPrecio por noche: $%.2f", habitacion.precioxNoche);
+        printf("\nEstado: %s", habitacion.estado);
+    }
+    fclose(archivo);
+}
+int bajaHabitacion(int num){
+    FILE *archivo = fopen("habitaciones", "rb");
+    FILE *aux = fopen("auxiliar", "wb"); //creo un auxiliar para copiar los datos
+
+    stHabitacion habitacion;
+    int i = 0;
+    int pos=0;
+    pos= buscarxNumero(num);
+    if (pos==-1){
+        printf("Habitacion no encontrada");
+        fclose(archivo);
+        fclose(aux);
+
+        remove("auxiliar");
+
+        return 0;
+    }
+    else {
+        while (fread(&habitacion, sizeof(stHabitacion), 1, archivo) > 0){
+
+        if (i != pos){
+            fwrite(&habitacion, sizeof(stHabitacion), 1, aux);
+        }
+
+        i++;
+    }
+    }
 
 
+    fclose(archivo);
+    fclose(aux);
 
+    remove("habitaciones");
+    rename("auxiliar", "habitaciones"); //renombro para seguir usando la gestion
+
+    return 1;
+}
+int buscarxNumero(int nroBuscado){
+    FILE *archivo = fopen("habitaciones", "rb");
+    stHabitacion habitacion;
+    int pos = 0;
+    int encontrada = -1;
+
+    if (archivo != NULL){
+        while (fread(&habitacion, sizeof(stHabitacion), 1, archivo) > 0){
+            if (habitacion.numero == nroBuscado){
+                encontrada = pos;
+                break;
+            }
+            pos++;
+        }
+        fclose(archivo);
+    }
+
+    return encontrada;
+}
 

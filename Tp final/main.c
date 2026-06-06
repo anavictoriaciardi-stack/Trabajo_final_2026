@@ -71,12 +71,21 @@ int main()
                     printf("\n");
                     break;
                 case 2:
+                    printf("\n-----Dar de baja una habitacion-----\n");
+                    int num;
+                    printf("\nNumero de habitacion que quiere eliminar: \n");
+                    scanf("%i", &num);
+                    bajaHabitacion(num);
+                    printf("\n");
                     break;
                 case 3:
                     break;
                 case 4:
                     break;
                 case 5:
+                    printf("-----Ver listado Completo-----\n");
+                    listadoCompleto();
+                    printf("\n");
                     break;
                 case 0:
                     break;
@@ -85,8 +94,6 @@ int main()
                     break;
                 }
             }
-
-
 
             break;
         case 3:
