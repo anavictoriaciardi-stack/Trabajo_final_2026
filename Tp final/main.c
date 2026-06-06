@@ -32,6 +32,12 @@ int main(){
                     printf("\n");
                     break;
                 case 2:
+                    printf("\n-----Dar de baja una habitacion-----\n");
+                    int num;
+                    printf("\nNumero de habitacion que quiere eliminar: \n");
+                    scanf("%i", &num);
+                    bajaHabitacion(num);
+                    printf("\n");
                     break;
                 case 3:
                     break;
