@@ -30,20 +30,20 @@
 
 1780705154 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.h
 
-1780764228 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.c
+1780874120 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	<string.h>
 
-1780764168 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\main.c
+1780871559 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\main.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	"habitacion.h"
 	"reservas.h"
 
-1780703006 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.h
+1780871559 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.h
 
 1780326999 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.h
 

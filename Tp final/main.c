@@ -59,8 +59,29 @@ int main()
                      }
                     break;
                 case 3:
+                    printf("\n---MODIFICAR POR DNI--\n");
+                     do{
+                        val=1;
+                        printf("Ingrese el DNI del huesped (8 caracteres) a modificar: \n");
+                        fflush(stdin);
+                        gets(dniBuscar);
+                        for(int i=0; i<8; i++){
+                            if(dniBuscar[i]<'0' || dniBuscar[i]>'9'){
+                                val=0;
+                            }
+                        }
+                        if (val==0){
+                            printf("\n--DNI invalido--\n");
+                            printf("\nVuela a ingresarlo correctamente\n");
+                        }
+
+                     }while(val==0);
+                    modificarDatos(dniBuscar);
+
                     break;
                 case 4:
+
+
                     break;
                 case 5:
                     break;
