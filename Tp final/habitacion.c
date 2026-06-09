@@ -190,7 +190,6 @@ int buscarxNumero(int nroBuscado){
 
     return encontrada;
 }
-
 int buscarHabitacionxnum(int num){
     FILE *archivo = fopen("habitaciones", "rb");
 
@@ -217,6 +216,44 @@ int buscarHabitacionxnum(int num){
     printf("\nEstado: %s\n", habitacion.estado);
 
     fclose(archivo);
+
+    return 1;
+}
+int modificarPrecios(){
+    FILE *archiPrecios = fopen("precios", "rb+");
+    if(archiPrecios == NULL){
+        printf("No se pudo abrir el archivo\n");
+        return 0;
+    }
+
+    stPrecios precios;
+    fread(&precios, sizeof(stPrecios), 1, archiPrecios);
+    int opcion;
+    printf("\nPrecio a cambiar:\n1-Simple \n2-Doble \n3-suite");
+    scanf("%d", &opcion);
+
+    if(opcion == 1){
+        printf("Nuevo costo de la habitacion: ");
+        scanf("%d", &precios.simple);
+    }
+    else if(opcion == 2){
+        printf("Nuevo costo de la habitacion: ");
+        scanf("%d", &precios.doble);
+    }
+    else if(opcion == 3){
+        printf("Nuevo costo de la habitacion: ");
+        scanf("%d", &precios.suite);
+    }
+    else{
+        printf("Opcion no valida\n");
+        fclose(archiPrecios);
+        return 0;
+    }
+
+    fseek(archiPrecios, 0, SEEK_SET);
+    fwrite(&precios, sizeof(stPrecios), 1, archiPrecios);
+
+    fclose(archiPrecios);
 
     return 1;
 }
