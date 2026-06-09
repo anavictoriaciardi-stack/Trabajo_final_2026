@@ -191,3 +191,32 @@ int buscarxNumero(int nroBuscado){
     return encontrada;
 }
 
+int buscarHabitacionxnum(int num){
+    FILE *archivo = fopen("habitaciones", "rb");
+
+    if(archivo == NULL){
+        return 0;
+    }
+
+    stHabitacion habitacion;
+    int pos = buscarxNumero(num);
+
+    if(pos == -1){
+        printf("Habitacion no encontrada\n");
+        fclose(archivo);
+        return 0;
+    }
+
+    fseek(archivo, pos * sizeof(stHabitacion), SEEK_SET);
+    fread(&habitacion, sizeof(stHabitacion), 1, archivo);
+
+    printf("\n------------------------------------------------");
+    printf("\nNumero de habitacion: %i", habitacion.numero);
+    printf("\nTipo de habitacion: %s", habitacion.tipo);
+    printf("\nPrecio por noche: $%.2f", habitacion.precioxNoche);
+    printf("\nEstado: %s\n", habitacion.estado);
+
+    fclose(archivo);
+
+    return 1;
+}

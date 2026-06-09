@@ -18,4 +18,5 @@ int altaHabitacion ();
 int listadoCompleto ();
 int buscarxNumero(int nroBuscado);
 int bajaHabitacion(int num);
+int buscarHabitacionxnum(int num);
 #endif // HABITACION_H_INCLUDED

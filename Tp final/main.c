@@ -116,6 +116,12 @@ int main()
                 case 3:
                     break;
                 case 4:
+                    printf("-----Busqueda especifica de Habitacion-----\n");
+                    int numero;
+                    printf("\n Que habitacion busca? ");
+                    scanf("%i", &numero);
+                    buscarHabitacionxnum(numero);
+                    printf("\n");
                     break;
                 case 5:
                     printf("-----Ver listado Completo-----\n");
