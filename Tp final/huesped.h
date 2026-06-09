@@ -7,5 +7,10 @@ typedef struct{
     long long int telefono;
     char email[30];
 } stHuesped;
-
+int altaHuesped();
+int buscarPosxDNI(char DNIbus[]);
+int bajaHuesped(char DNIbus[]);
+int DNIexiste(char DNI[]);
+int EMAILexiste(char EMAIL[]);
+int modificarDatos(char dniBus[] );
 #endif // HUESPED_H_INCLUDED

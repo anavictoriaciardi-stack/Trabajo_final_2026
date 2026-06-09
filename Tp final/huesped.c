@@ -12,12 +12,7 @@
 #include "huesped.h"
 #include <string.h>
 
-int altaHuesped();
-int buscarPosxDNI(char DNIbus[]);
-int bajaHuesped(char DNIbus[]);
-int DNIexiste(char DNI[]);
-int EMAILexiste(char EMAIL[]);
-int modificarDatos(char dniBus[] );
+
 int altaHuesped()
 {
     FILE *arch=fopen("archHuesped", "ab");
@@ -283,6 +278,9 @@ fclose(arch);
 return 1;
 }
 
+void mostrarRegistro(stHuesped huesped){
+
+}
 
 
 
