@@ -130,8 +130,14 @@ int main()
                     printf("-----Busqueda especifica de Habitacion-----\n");
                     int numero;
                     printf("\n Que habitacion busca? ");
-                    scanf("%i", &numero);
-                    buscarHabitacionxnum(numero);
+                    if (scanf("%d", &numero) != 1 || getchar() != '\n'){
+                                printf("Formato no valido\n");
+                                while (getchar() != '\n'); //limpio el buffer
+                            }
+                    else {
+                        buscarHabitacionxnum(numero);
+                    }
+
                     printf("\n");
                     break;
                 case 5:
@@ -142,7 +148,7 @@ int main()
                 case 0:
                     break;
                 default:
-
+                    printf("\n Opcion Invalida\n");
                     break;
                 }
             }
