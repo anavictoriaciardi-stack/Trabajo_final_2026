@@ -67,7 +67,7 @@ int altaHabitacion(){
         printf("\nTipo de habitacion: \n1-Simple \n2-Doble \n3-Suite \nIngrese el tipo: ");
         if (scanf("%d", &tipo) != 1 || getchar() != '\n'){
             printf("Formato no valido\n");
-            while (getchar() != '\n');
+            while (getchar() != '\n'); //limpio el buffer
         }
         else{
             stPrecios auxPrecios;

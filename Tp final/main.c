@@ -110,7 +110,7 @@ int main()
                     int num, corroborar;
                     while (corroborar!=0){
                             printf("\nNumero de habitacion que quiere eliminar: \n");
-                            if (scanf("%d", &tipo) != 1 || getchar() != '\n'){
+                            if (scanf("%d", &num) != 1 || getchar() != '\n'){
                                 printf("Formato no valido\n");
                                 while (getchar() != '\n'); //limpio el buffer
                             }

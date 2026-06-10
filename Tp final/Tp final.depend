@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1781045301 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.c
+1781124967 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
@@ -13,7 +13,7 @@
 
 1780327166 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.c
 
-1781045648 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.h
+1781122283 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.h
 
 1780692492 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\main.c
 	<stdio.h>
