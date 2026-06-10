@@ -107,13 +107,24 @@ int main()
                     break;
                 case 2:
                     printf("\n-----Dar de baja una habitacion-----\n");
-                    int num;
-                    printf("\nNumero de habitacion que quiere eliminar: \n");
-                    scanf("%i", &num);
-                    bajaHabitacion(num);
+                    int num, corroborar;
+                    while (corroborar!=0){
+                            printf("\nNumero de habitacion que quiere eliminar: \n");
+                            if (scanf("%d", &num) != 1 || getchar() != '\n'){
+                                printf("Formato no valido\n");
+                                while (getchar() != '\n'); //limpio el buffer
+                            }
+                            else {
+                            bajaHabitacion(num);
+                            }
+                    }
+
                     printf("\n");
                     break;
                 case 3:
+                    printf("\n-----Modificar Precios de la Habitacion-----\n");
+                    modificarPrecios();
+                    printf("\n");
                     break;
                 case 4:
                     printf("-----Busqueda especifica de Habitacion-----\n");
