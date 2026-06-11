@@ -19,82 +19,119 @@ int altaHuesped()
         while (getchar() != '\n');
         fgets(huesped.NombreYApelido, sizeof(huesped.NombreYApelido), stdin);
 
-        do {
+        do
+        {
             val = 1;
+
             printf("        DNI: ");
-            while (getchar() != '\n');
             fgets(huesped.DNI, sizeof(huesped.DNI), stdin);
             huesped.DNI[strcspn(huesped.DNI, "\n")] = 0;
 
             int len = strlen(huesped.DNI);
-            if (len < 1) val = 0;
 
-            for (int i = 0; i < len; i++) {
-                if (huesped.DNI[i] < '0' || huesped.DNI[i] > '9') {
+            if (len != 8)
+            {
+                val = 0;
+            }
+
+            for (int i = 0; i < len && val == 1; i++)
+            {
+                if (huesped.DNI[i] < '0' || huesped.DNI[i] > '9')
+                {
                     val = 0;
                 }
             }
 
-            if (val == 0) {
+            if (val == 0)
+            {
                 printf("\n--DNI invalido--\n");
-                printf("\nVuelva a ingresarlo correctamente\n");
-            } else {
+                printf("Debe contener exactamente 8 digitos.\n");
+            }
+            else
+            {
                 enconDNI = DNIexiste(huesped.DNI);
-                if (enconDNI) {
+
+                if (enconDNI)
+                {
                     printf("\n--DNI ya existente--\n");
                     val = 0;
                 }
             }
-        } while (val == 0);
 
-        do {
+        }
+        while (val == 0);
+        do
+        {
             printf("        Telefono: ");
             control = scanf("%lld", &huesped.telefono);
 
-            if (control != 1 || huesped.telefono < min || huesped.telefono > max) {
+            if (control != 1 || huesped.telefono < min || huesped.telefono > max)
+            {
                 printf("\n--Telefono no valido--\n");
                 printf("\nVuelva a ingresarlo correctamente\n");
 
-                if (control != 1) {
+                if (control != 1)
+                {
                     while (getchar() != '\n');
                 }
             }
-        } while (control != 1 || huesped.telefono < min || huesped.telefono > max);
+        }
+        while (control != 1 || huesped.telefono < min || huesped.telefono > max);
 
-        do {
+        while(getchar() != '\n');
+
+        do
+        {
             val = 1;
-            printf("        Email: ");
-            while (getchar() != '\n');
-            fgets(huesped.email, sizeof(huesped.email), stdin);
 
-            if (strchr(huesped.email, '@') == NULL || strchr(huesped.email, '.') == NULL) {
-                printf("\n      --Email no valido--\n");
-                printf("\nVuelva a ingresarlo correctamente\n");
+            printf("        Email: ");
+            fgets(huesped.email, sizeof(huesped.email), stdin);
+            huesped.email[strcspn(huesped.email, "\n")] = 0;
+
+            if (strchr(huesped.email, '@') == NULL ||
+                    strchr(huesped.email, '.') == NULL)
+            {
+
+                printf("\n--Email no valido--\n");
+                printf("Vuelva a ingresarlo correctamente\n");
                 val = 0;
-            } else {
+            }
+            else
+            {
                 enconEMAIL = EMAILexiste(huesped.email);
-                if (enconEMAIL) {
-                    printf("Email ya existente\n");
+
+                if (enconEMAIL)
+                {
+                    printf("\n--Email ya existente--\n");
                     val = 0;
                 }
             }
-        } while (val == 0);
+
+        }
+        while (val == 0);
 
         fwrite(&huesped, sizeof(stHuesped), 1, arch);
 
-        do {
+        do
+        {
             printf("\nQuiere cargar otro huesped?\n 1-SI\n0-NO\n=");
             scanf("%i", &seguir);
 
-            if (seguir == 1) {
+            if (seguir == 1)
+            {
                 printf("->NUEVO huesped: \n");
-            } else if (seguir == 0) {
+            }
+            else if (seguir == 0)
+            {
                 printf("\n--Huesped cargado correctamente--\n");
-            } else {
+            }
+            else
+            {
                 printf("\n--Opcion no valida--\n");
             }
 
-        } while (seguir != 1 && seguir != 0);
+        }
+        while (seguir != 1 && seguir != 0);
     }
 
     fclose(arch);
@@ -107,12 +144,15 @@ int DNIexiste(char DNI[])
     stHuesped huesped;
     int encontrado = 0;
 
-    if (arch == NULL) {
+    if (arch == NULL)
+    {
         return 0;
     }
 
-    while (fread(&huesped, sizeof(stHuesped), 1, arch) > 0 && encontrado == 0) {
-        if (strcmp(huesped.DNI, DNI) == 0) {
+    while (fread(&huesped, sizeof(stHuesped), 1, arch) > 0 && encontrado == 0)
+    {
+        if (strcmp(huesped.DNI, DNI) == 0)
+        {
             encontrado = 1;
         }
     }
@@ -127,12 +167,15 @@ int EMAILexiste(char EMAIL[])
     stHuesped huesped;
     int encontrado = 0;
 
-    if (arch == NULL) {
+    if (arch == NULL)
+    {
         return 0;
     }
 
-    while (fread(&huesped, sizeof(stHuesped), 1, arch) > 0 && encontrado == 0) {
-        if (strcmp(huesped.email, EMAIL) == 0) {
+    while (fread(&huesped, sizeof(stHuesped), 1, arch) > 0 && encontrado == 0)
+    {
+        if (strcmp(huesped.email, EMAIL) == 0)
+        {
             encontrado = 1;
         }
     }
@@ -147,12 +190,15 @@ int buscarPosxDNI(char DNIbus[])
     stHuesped husped;
     int pos = 0;
 
-    if (arch == NULL) {
+    if (arch == NULL)
+    {
         return -1;
     }
 
-    while (fread(&husped, sizeof(stHuesped), 1, arch) > 0) {
-        if (strcmp(husped.DNI, DNIbus) == 0) {
+    while (fread(&husped, sizeof(stHuesped), 1, arch) > 0)
+    {
+        if (strcmp(husped.DNI, DNIbus) == 0)
+        {
             fclose(arch);
             return pos;
         }
@@ -170,14 +216,17 @@ int bajaHuesped(char DNIbus[])
 
     stHuesped huesped;
 
-    if (arch == NULL || archA == NULL) {
+    if (arch == NULL || archA == NULL)
+    {
         if (arch) fclose(arch);
         if (archA) fclose(archA);
         return 0;
     }
 
-    while (fread(&huesped, sizeof(stHuesped), 1, arch) > 0) {
-        if (strcmp(huesped.DNI, DNIbus) != 0) {
+    while (fread(&huesped, sizeof(stHuesped), 1, arch) > 0)
+    {
+        if (strcmp(huesped.DNI, DNIbus) != 0)
+        {
             fwrite(&huesped, sizeof(stHuesped), 1, archA);
         }
     }
@@ -200,7 +249,8 @@ int modificarDatos(char dniBus[])
 
     pos = buscarPosxDNI(dniBus);
 
-    if (pos == -1 || arch == NULL) {
+    if (pos == -1 || arch == NULL)
+    {
         if (arch) fclose(arch);
         return 0;
     }
@@ -219,32 +269,47 @@ int modificarDatos(char dniBus[])
     switch (op)
     {
     case 1:
-        do {
+        do
+        {
             val = 1;
-            printf("        DNI nuevo: ");
-            while (getchar() != '\n');
+
+            printf("        DNI: ");
             fgets(huesped.DNI, sizeof(huesped.DNI), stdin);
             huesped.DNI[strcspn(huesped.DNI, "\n")] = 0;
 
             int len = strlen(huesped.DNI);
-            if (len < 1) val = 0;
 
-            for (int i = 0; i < len; i++) {
-                if (huesped.DNI[i] < '0' || huesped.DNI[i] > '9') {
+            if (len != 8)
+            {
+                val = 0;
+            }
+
+            for (int i = 0; i < len && val == 1; i++)
+            {
+                if (huesped.DNI[i] < '0' || huesped.DNI[i] > '9')
+                {
                     val = 0;
                 }
             }
 
-            if (val == 0) {
+            if (val == 0)
+            {
                 printf("\n--DNI invalido--\n");
-            } else {
+                printf("Debe contener exactamente 8 digitos.\n");
+            }
+            else
+            {
                 encontrado = DNIexiste(huesped.DNI);
-                if (encontrado) {
+
+                if (encontrado)
+                {
                     printf("\n--DNI ya existente--\n");
                     val = 0;
                 }
             }
-        } while (val == 0);
+
+        }
+        while (val == 0);
         break;
 
     case 2:
@@ -254,34 +319,54 @@ int modificarDatos(char dniBus[])
         break;
 
     case 3:
-        do {
+        do
+        {
             printf("        Telefono nuevo: ");
             control = scanf("%lld", &huesped.telefono);
 
-            if (control != 1 || huesped.telefono < min || huesped.telefono > max) {
+            if (control != 1 || huesped.telefono < min || huesped.telefono > max)
+            {
                 printf("\n--Telefono no valido--\n");
 
-                if (control != 1) {
+                if (control != 1)
+                {
                     while (getchar() != '\n');
                 }
             }
-        } while (control != 1 || huesped.telefono < min || huesped.telefono > max);
+        }
+        while (control != 1 || huesped.telefono < min || huesped.telefono > max);
         break;
 
     case 4:
-        do {
+        do
+        {
             val = 1;
-            printf("        Email nuevo: ");
-            while (getchar() != '\n');
-            fgets(huesped.email, sizeof(huesped.email), stdin);
 
-            if (strchr(huesped.email, '@') == NULL || strchr(huesped.email, '.') == NULL) {
+            printf("        Email: ");
+            fgets(huesped.email, sizeof(huesped.email), stdin);
+            huesped.email[strcspn(huesped.email, "\n")] = 0;
+
+            if (strchr(huesped.email, '@') == NULL ||
+                    strchr(huesped.email, '.') == NULL)
+            {
+
+                printf("\n--Email no valido--\n");
+                printf("Vuelva a ingresarlo correctamente\n");
                 val = 0;
-            } else {
-                encontrado = EMAILexiste(huesped.email);
-                if (encontrado) val = 0;
             }
-        } while (val == 0);
+            else
+            {
+                encontrado = EMAILexiste(huesped.email);
+
+                if (encontrado)
+                {
+                    printf("\n--Email ya existente--\n");
+                    val = 0;
+                }
+            }
+
+        }
+        while (val == 0);
         break;
 
     default:
@@ -309,7 +394,8 @@ void mostrarHuesped(FILE *arch)
 {
     stHuesped huesped;
 
-    if (fread(&huesped, sizeof(stHuesped), 1, arch) > 0) {
+    if (fread(&huesped, sizeof(stHuesped), 1, arch) > 0)
+    {
         datoHuespedMostrar(huesped);
         mostrarHuesped(arch);
     }
@@ -329,7 +415,8 @@ void listarHuespedesOrdenados()
 
     stHuesped *arr = malloc(sizeof(stHuesped) * val);
 
-    if (arr != NULL) {
+    if (arr != NULL)
+    {
         fread(arr, sizeof(stHuesped), val, arch);
         ordenarPorNombre(arr, val);
         mostrarArregloOrdenado(arr, val, 0);
@@ -344,11 +431,14 @@ void ordenarPorNombre(stHuesped arr[], int validos)
     int i, j, posMenor;
     stHuesped aux;
 
-    for (i = 0; i < validos - 1; i++) {
+    for (i = 0; i < validos - 1; i++)
+    {
         posMenor = i;
 
-        for (j = i + 1; j < validos; j++) {
-            if (strcmp(arr[j].NombreYApelido, arr[posMenor].NombreYApelido) < 0) {
+        for (j = i + 1; j < validos; j++)
+        {
+            if (strcmp(arr[j].NombreYApelido, arr[posMenor].NombreYApelido) < 0)
+            {
                 posMenor = j;
             }
         }
@@ -361,7 +451,8 @@ void ordenarPorNombre(stHuesped arr[], int validos)
 
 void mostrarArregloOrdenado(stHuesped arr[], int val, int i)
 {
-    if (i < val) {
+    if (i < val)
+    {
         datoHuespedMostrar(arr[i]);
         mostrarArregloOrdenado(arr, val, i + 1);
     }

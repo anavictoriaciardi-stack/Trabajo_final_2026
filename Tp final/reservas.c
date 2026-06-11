@@ -26,7 +26,7 @@ int generarId(){
 
 int altaReserva(){
 
-    FILE *archRes = fopen("reservas", "rb+");
+    FILE *archRes = fopen("reservas", "ab+");
     stReserva reserva;
     stHabitacion habitacion;
 
@@ -185,6 +185,7 @@ int altaReserva(){
     }while(confirmar != 0 && confirmar != 1);
 
     if(confirmar == 0){
+        printf("\n--Reserva cancelada--\n");
         fclose(archRes);
         fclose(archHab);
         return 0;
