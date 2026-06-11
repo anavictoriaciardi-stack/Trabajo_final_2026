@@ -13,7 +13,6 @@ int id = 1;
         }
         fclose(arch);
     }
-
     return id;
 }
 
