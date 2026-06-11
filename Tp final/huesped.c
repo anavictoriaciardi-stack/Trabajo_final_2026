@@ -281,19 +281,66 @@ stHuesped huesped;
 void mostrarHuesped(FILE *arch){
 stHuesped huesped;
 if(fread(&huesped, sizeof(stHuesped),1,arch)>0){
+    datoHuespedMostrar(huesped);
+    mostrarHuesped(arch);
+}
+}
+
+void listarHuespedesOrdenados()
+{
+    FILE *arch = fopen("archHuesped", "rb");
+    int val;
+    stHuesped *arr;
+    fseek(arch, 0, SEEK_END);
+    val = ftell(arch) / sizeof(stHuesped);
+    rewind(arch);
+
+    arr = malloc(sizeof(stHuesped)*val);
+    if(arr != NULL)
+    {
+        fread(arr, sizeof(stHuesped), val, arch);
+        ordenarPorNombre(arr, val);
+        mostrarArregloOrdenado(arr, val, 0);
+        free(arr);
+    }
+    fclose(arch);
+}
+
+void ordenarPorNombre(stHuesped arr[], int validos)
+{
+    int i, j, posMenor;
+    stHuesped aux;
+    for(i = 0; i < validos - 1; i++)
+    {
+        posMenor = i;
+        for(j = i + 1; j < validos; j++)
+        {
+            if(strcmp(arr[j].NombreYApelido,arr[posMenor].NombreYApelido) < 0)
+            {
+                posMenor = j;
+            }
+        }
+        aux = arr[i];
+        arr[i] = arr[posMenor];
+        arr[posMenor] = aux;
+    }
+}
+
+void mostrarArregloOrdenado(stHuesped arr[], int val, int i){
+    if(i<val){
+        datoHuespedMostrar(arr[i]);
+        mostrarArregloOrdenado(arr, val, i+1);
+
+    }
+}
+
+void datoHuespedMostrar(stHuesped huesped){
     printf("\n-----------------\n");
     printf("    Nombre y Apellido: %s\n", huesped.NombreYApelido);
     printf("    DNI: %s\n", huesped.DNI);
     printf("    Telefono: %lld\n", huesped.telefono);
     printf("    Email: %s", huesped.email);
-    mostrarHuesped(arch);
 }
-}
-
-
-
-
-
 
 
 

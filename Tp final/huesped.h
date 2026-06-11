@@ -15,4 +15,8 @@ int EMAILexiste(char EMAIL[]);
 int modificarDatos(char dniBus[] );
 void mostrarRegistro();
 void mostrarHuesped(FILE *arch);
+void datoHuespedMostrar(stHuesped huesped);
+void listarHuespedesOrdenados();
+void ordenarPorNombre(stHuesped arr[], int validos);
+void mostrarArregloOrdenado(stHuesped arr[], int val, int i);
 #endif // HUESPED_H_INCLUDED
