@@ -12,5 +12,6 @@ int generarId();
 int altaReserva();
 int bajaReserva(int id_reserva);
 int buscarPosxID(int id_reserva);
+int mostrarUnaReserva(int id);
 
 #endif // RESERVAS_H_INCLUDED

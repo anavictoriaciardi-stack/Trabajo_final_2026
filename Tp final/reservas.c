@@ -276,7 +276,56 @@ while(fread(&reserva, sizeof(stReserva), 1, archRes)>0){
 fclose(archRes);
 return -1;
 }
+int mostrarUnaReserva(int id){
+    int pos;
 
+FILE *archRes = fopen("reservas", "rb");
+FILE *archHab = fopen("habitaciones", "rb");
+
+stHabitacion habitacion;
+stReserva reserva;
+
+if (archRes == NULL){
+    return -1;
+}
+
+if (archHab == NULL){
+    fclose(archRes);
+    return -1;
+}
+    else {
+         pos=buscarPosxID(id);
+    if(pos == -1){
+        printf("Reserva no encontrada\n");
+        fclose(archRes);
+        return 0;
+    }
+    fseek(archRes, pos * sizeof(stReserva), SEEK_SET);
+    fread(&reserva, sizeof(stReserva), 1, archRes);
+
+    int posHab = buscarxNumero(reserva.numHabitacion);
+
+    if(posHab != -1){
+        fseek(archHab, posHab * sizeof(stHabitacion), SEEK_SET);
+        fread(&habitacion, sizeof(stHabitacion), 1, archHab);
+    }
+
+    printf("\n -----------------------------------");
+    printf("ID Reserva: %i\n", reserva.idReserva);
+    printf("DNI Huesped: %s\n", reserva.dniHuesped);
+    printf("Habitacion: %i\n", habitacion.numero);
+    printf("Tipo: %s\n", habitacion.tipo);
+    printf("Precio por noche: $%.2f\n", habitacion.precioxNoche);
+    printf("Cantidad de noches: %i\n", reserva.cantNoches);
+    printf("TOTAL: $%.2f\n", reserva.total);
+
+    fclose(archRes);
+    fclose (archHab);
+
+    }
+
+    return 1;
+}
 
 
 

@@ -77,19 +77,29 @@ void menuReservas(){
                     }
 
                     printf("\n");
-
-                bajaReserva(numm);
                 break;
 
             case 3:
-                // modificarReserva();
+                printf("\n-----Buscar una reserva-----\n");
+                    int id, verificar1, res;
+                    while (verificar1!=0){
+                            printf("\ID de reserva que quiere buscar: \n");
+                            if (scanf("%d", &id) != 1 || getchar() != '\n'){
+                                printf("Formato no valido\n");
+                                while (getchar() != '\n'); //limpio el buffer
+                            }
+                            else {
+                                res= mostrarUnaReserva(id);
+                                if (res=-1){
+                                    printf("error del archivo");
+                                }
+                            }
+                    }
+
+                    printf("\n");
                 break;
 
             case 4:
-                // buscarReserva();
-                break;
-
-            case 5:
                 // mostrarReservas();
                 break;
 
