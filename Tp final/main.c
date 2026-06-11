@@ -49,9 +49,8 @@ void menuReservas(){
         printf("\n--- GESTION DE RESERVAS ---\n");
         printf("1- Alta de reserva\n");
         printf("2- Baja de reserva\n");
-        printf("3- Modificar reserva\n");
-        printf("4- Buscar reserva\n");
-        printf("5- Mostrar reservas\n");
+        printf("3- Buscar reserva\n");
+        printf("4- Mostrar reservas\n");
         printf("0- Volver\n");
         printf("Opcion: ");
         scanf("%d", &opcion);
@@ -59,7 +58,9 @@ void menuReservas(){
         switch(opcion){
 
             case 1:
+                printf("\n-----Crear una Reserva-----\n");
                 altaReserva();
+                printf("\n");
                 break;
 
             case 2:
@@ -100,7 +101,10 @@ void menuReservas(){
                 break;
 
             case 4:
-                // mostrarReservas();
+                printf("\n-----Mostrar Listado de Reservas por Orden de Carga-----\n");
+                    listadoReservas();
+                    printf("\n");
+
                 break;
 
             case 0:

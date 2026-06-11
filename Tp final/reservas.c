@@ -326,7 +326,40 @@ if (archHab == NULL){
 
     return 1;
 }
+int listadoReservas(){
+    FILE *archRes = fopen("reservas", "rb");
+    FILE *archHab = fopen("habitaciones", "rb");
 
+    stHabitacion habitacion;
+    stReserva reserva;
+
+    if(archRes == NULL || archHab == NULL){
+        printf("Error en el archivo");
+        return -1;
+    }
+
+    while(fread(&reserva, sizeof(stReserva), 1, archRes) > 0){
+
+        int posHab = buscarxNumero(reserva.numHabitacion);
+
+        fseek(archHab, posHab * sizeof(stHabitacion), SEEK_SET);
+        fread(&habitacion, sizeof(stHabitacion), 1, archHab);
+
+        printf("\n-----------------------------------\n");
+        printf("ID Reserva: %i\n", reserva.idReserva);
+        printf("DNI Huesped: %s\n", reserva.dniHuesped);
+        printf("Habitacion: %i\n", habitacion.numero);
+        printf("Tipo: %s\n", habitacion.tipo);
+        printf("Precio por noche: $%.2f\n", habitacion.precioxNoche);
+        printf("Cantidad de noches: %i\n", reserva.cantNoches);
+        printf("TOTAL: $%.2f\n", reserva.total);
+    }
+
+    fclose(archHab);
+    fclose(archRes);
+
+    return 1;
+}
 
 
 
