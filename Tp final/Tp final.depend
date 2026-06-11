@@ -1,30 +1,36 @@
 # depslib dependency file v1.0
-1781146461 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.c
+1781150861 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
 	"habitacion.h"
 
-1781125590 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\huesped.c
+1781150863 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\huesped.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	<string.h>
 
-1780327166 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.c
+1781151055 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.c
+	<stdio.h>
+	<stdlib.h>
+	"reservas.h"
+	"habitacion.h"
+	"huesped.h"
+	"string.h"
 
-1781146478 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.h
+1781146685 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.h
 
-1781127437 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\main.c
+1781150861 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\main.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	"habitacion.h"
 	"reservas.h"
 
-1781125590 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\huesped.h
+1781150863 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\huesped.h
 
-1780326024 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.h
+1781150963 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.h
 
 1781146936 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.c
 	<stdio.h>

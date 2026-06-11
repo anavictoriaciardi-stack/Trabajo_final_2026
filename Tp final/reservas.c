@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "reservas.h"
 #include "habitacion.h"
+#include "huesped.h"
+#include "string.h"
+
 int generarId(){
 FILE *arch=fopen("reservas", "ab");
 stReserva reservas;

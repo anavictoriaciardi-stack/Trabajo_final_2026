@@ -63,7 +63,22 @@ void menuReservas(){
                 break;
 
             case 2:
-                // bajaReserva();
+                printf("\n-----Dar de baja una Reserva-----\n");
+                    int numm, verificar;
+                    while (verificar!=0){
+                            printf("\ID de reserva que quiere eliminar: \n");
+                            if (scanf("%d", &numm) != 1 || getchar() != '\n'){
+                                printf("Formato no valido\n");
+                                while (getchar() != '\n'); //limpio el buffer
+                            }
+                            else {
+                                bajaReserva(numm);
+                            }
+                    }
+
+                    printf("\n");
+
+                bajaReserva(numm);
                 break;
 
             case 3:
