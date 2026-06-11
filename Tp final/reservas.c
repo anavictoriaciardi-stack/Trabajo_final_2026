@@ -203,7 +203,76 @@ int altaReserva(){
     return 1;
 }
 
+int bajaReserva(int id_reserva){
+    FILE *archRes = fopen("reservas", "rb");
+    FILE *archB = fopen("archAux", "wb");
+    stReserva reserva;
+    int pos = buscarPosxID(id_reserva);
 
+    if(pos == -1){
+        printf("\n--No existe reserva con ese ID--");
+        fclose(archRes);
+        fclose(archB);
+        remove("archAux");
+        return 0;
+    }
+
+    while(fread(&reserva, sizeof(stReserva), 1, archRes) > 0){
+
+        if(reserva.idReserva != id_reserva){
+            fwrite(&reserva, sizeof(stReserva), 1, archB);
+        }
+        else{
+
+            FILE *archHab = fopen("habitaciones", "rb+");
+
+            if(archHab != NULL){
+
+                stHabitacion habitacion;
+                int posHab = buscarxNumero(reserva.numHabitacion);
+
+                if(posHab != -1){
+
+                    fseek(archHab, posHab * sizeof(stHabitacion), SEEK_SET);
+                    fread(&habitacion, sizeof(stHabitacion), 1, archHab);
+
+                    strcpy(habitacion.estado, "Libre");
+
+                    fseek(archHab, posHab * sizeof(stHabitacion), SEEK_SET);
+                    fwrite(&habitacion, sizeof(stHabitacion), 1, archHab);
+                }
+
+                fclose(archHab);
+            }
+        }
+    }
+
+    fclose(archRes);
+    fclose(archB);
+
+    remove("reservas");
+    rename("archAux", "reservas");
+
+    return 1;
+}
+int buscarPosxID(int id_reserva){
+FILE *archRes = fopen("reservas", "rb");
+stReserva reserva;
+int pos=0;
+if (archRes==NULL){
+    return -1;
+}
+
+while(fread(&reserva, sizeof(stReserva), 1, archRes)>0){
+    if(reserva.idReserva == id_reserva){
+        fclose(archRes);
+        return pos;
+    }
+    pos++;
+}
+fclose(archRes);
+return -1;
+}
 
 
 
