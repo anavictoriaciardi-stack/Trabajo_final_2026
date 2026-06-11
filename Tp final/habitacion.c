@@ -109,6 +109,9 @@ int altaHabitacion(){
     return 1;
 }
 int listadoCompleto (){
+
+    ordenarArchivoHabitaciones();
+
     FILE *archivo = fopen("habitaciones", "rb");
     stHabitacion habitacion;
     while (fread(&habitacion, sizeof(stHabitacion), 1, archivo) > 0){
@@ -242,4 +245,45 @@ int modificarPrecios(){
     fclose(archiPrecios);
 
     return 1;
+}
+
+void ordenarArchivoHabitaciones() {
+    FILE *archivo = fopen("habitaciones", "rb+");
+
+    if (archivo == NULL) {
+        return;
+    }
+
+    fseek(archivo, 0, SEEK_END);
+    int cant = ftell(archivo) / sizeof(stHabitacion);
+
+    stHabitacion *habitaciones = malloc(cant * sizeof(stHabitacion));
+
+    if (habitaciones == NULL) {
+        fclose(archivo);
+        return;
+    }
+
+    rewind(archivo);
+    fread(habitaciones, sizeof(stHabitacion), cant, archivo);
+
+    // Inserción
+    for (int i = 1; i < cant; i++) {
+
+        stHabitacion aux = habitaciones[i];
+        int j = i - 1;
+
+        while (j >= 0 && habitaciones[j].numero > aux.numero) {
+            habitaciones[j + 1] = habitaciones[j];
+            j--;
+        }
+
+        habitaciones[j + 1] = aux;
+    }
+
+    rewind(archivo);
+    fwrite(habitaciones, sizeof(stHabitacion), cant, archivo);
+
+    free(habitaciones);
+    fclose(archivo);
 }

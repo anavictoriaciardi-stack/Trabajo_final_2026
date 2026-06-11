@@ -20,4 +20,5 @@ int buscarxNumero(int nroBuscado);
 int bajaHabitacion(int num);
 int buscarHabitacionxnum(int num);
 int modificarPrecios();
+void ordenarArchivoHabitaciones();
 #endif // HABITACION_H_INCLUDED
