@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "string.h"
@@ -268,6 +269,7 @@ void ordenarArchivoHabitaciones() {
     fread(habitaciones, sizeof(stHabitacion), cant, archivo);
 
     // Inserción
+
     for (int i = 1; i < cant; i++) {
 
         stHabitacion aux = habitaciones[i];
