@@ -1,16 +1,17 @@
 #ifndef RESERVAS_H_INCLUDED
 #define RESERVAS_H_INCLUDED
+#include "pila.h"
 
 typedef struct{
     int idReserva;
-    char dniHuesped[9];
+    char dniHuesped[15];
     int numHabitacion;
     int cantNoches;
     float total;
 } stReserva;
 int generarId();
 int altaReserva();
-int bajaReserva(int id_reserva);
+int bajaReserva(int id_reserva, Pila *pilaEliminados);
 int buscarPosxID(int id_reserva);
 int mostrarUnaReserva(int id);
 int listadoReservas();

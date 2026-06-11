@@ -8,39 +8,40 @@ int altaHuesped()
     FILE *arch = fopen("archHuesped", "a+b");
     stHuesped huesped;
 
-    int seguir = 1, control, val, enconDNI, enconEMAIL;
+    int seguir = 1, control, val, enconDNI, enconEMAIL, len;
     long long int min = 1000000000, max = 9999999999;
 
     while (seguir == 1)
     {
         printf("Complete los siguientes datos:\n");
         printf("        Nombre y Apellido: ");
-
         while (getchar() != '\n');
         fgets(huesped.NombreYApelido, sizeof(huesped.NombreYApelido), stdin);
 
         do
         {
+
             val = 1;
 
             printf("        DNI: ");
             fgets(huesped.DNI, sizeof(huesped.DNI), stdin);
             huesped.DNI[strcspn(huesped.DNI, "\n")] = 0;
 
-            int len = strlen(huesped.DNI);
-
-            if (len != 8)
+            len = strlen(huesped.DNI);
+            if (len > 8)
             {
                 val = 0;
-            }
 
-            for (int i = 0; i < len && val == 1; i++)
+            } else {
+                for (int i = 0; i < len ; i++)
             {
                 if (huesped.DNI[i] < '0' || huesped.DNI[i] > '9')
                 {
                     val = 0;
                 }
             }
+            }
+
 
             if (val == 0)
             {
@@ -59,7 +60,9 @@ int altaHuesped()
             }
 
         }
+
         while (val == 0);
+
         do
         {
             printf("        Telefono: ");
@@ -269,48 +272,54 @@ int modificarDatos(char dniBus[])
     switch (op)
     {
     case 1:
-        do
+      do
+{
+    val = 1;
+
+    printf("        DNI: ");
+    fgets(huesped.DNI, sizeof(huesped.DNI), stdin);
+
+    if (strchr(huesped.DNI, '\n') == NULL) {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+        val = 0;
+    }
+
+    huesped.DNI[strcspn(huesped.DNI, "\n")] = 0;
+
+    int len = strlen(huesped.DNI);
+    if (len != 8){
+        val = 0;
+    }
+
+    for (int i = 0; i < len && val == 1; i++)
+    {
+        if (huesped.DNI[i] < '0' || huesped.DNI[i] > '9')
         {
-            val = 1;
-
-            printf("        DNI: ");
-            fgets(huesped.DNI, sizeof(huesped.DNI), stdin);
-            huesped.DNI[strcspn(huesped.DNI, "\n")] = 0;
-
-            int len = strlen(huesped.DNI);
-
-            if (len != 8)
-            {
-                val = 0;
-            }
-
-            for (int i = 0; i < len && val == 1; i++)
-            {
-                if (huesped.DNI[i] < '0' || huesped.DNI[i] > '9')
-                {
-                    val = 0;
-                }
-            }
-
-            if (val == 0)
-            {
-                printf("\n--DNI invalido--\n");
-                printf("Debe contener exactamente 8 digitos.\n");
-            }
-            else
-            {
-                encontrado = DNIexiste(huesped.DNI);
-
-                if (encontrado)
-                {
-                    printf("\n--DNI ya existente--\n");
-                    val = 0;
-                }
-            }
-
+            val = 0;
         }
-        while (val == 0);
-        break;
+    }
+
+    if (val == 0)
+    {
+        printf("\n--DNI invalido--\n");
+        printf("Debe contener exactamente 8 digitos.\n\n");
+    }
+    else
+    {
+        encontrado = DNIexiste(huesped.DNI);
+
+        if (encontrado)
+        {
+            printf("\n--DNI ya existente--\n\n");
+            val = 0;
+        }
+    }
+
+}
+while (val == 0);
+break;
+
 
     case 2:
         printf("Ingrese el nuevo Nombre y Apellido: ");
@@ -467,5 +476,7 @@ void datoHuespedMostrar(stHuesped huesped)
     printf("    Email: %s", huesped.email);
 }
 
+void buscarHuesped(char DNIbus[]){
 
 
+}

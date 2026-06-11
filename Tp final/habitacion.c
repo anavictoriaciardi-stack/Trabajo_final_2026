@@ -22,11 +22,12 @@ int altaHabitacion(){
         int nro = 0;
         int existe = 0;
 
-        printf("\nNumero de habitacion: ");
+        printf("\nNumero de habitacion (Si carga letras luego de los numeros, no seran registradas): ");
 
         if (scanf("%d", &nro) != 1){
             printf("Formato no valido\n");
             while (getchar() != '\n');
+
         } else {
             while (getchar() != '\n');
 
@@ -141,7 +142,7 @@ int listadoCompleto(){
 }
 
 int bajaHabitacion(int num){
-    FILE *archHab = fopen("habitaciones", "rb");
+    FILE *archHab = fopen("habitaciones", "ab+");
     FILE *aux = fopen("auxiliar", "wb");
 
     if (archHab == NULL || aux == NULL){
@@ -284,19 +285,19 @@ int modificarPrecios(){
     if (opcion == 1){
         do{
             printf("Nuevo costo simple: ");
-            scanf("%d", &precios.simple);
+            scanf("%f", &precios.simple);
         } while (precios.simple <= 0);
     }
     else if (opcion == 2){
         do{
             printf("Nuevo costo doble: ");
-            scanf("%d", &precios.doble);
+            scanf("%f", &precios.doble);
         } while (precios.doble <= 0);
     }
     else if (opcion == 3){
         do{
             printf("Nuevo costo suite: ");
-            scanf("%d", &precios.suite);
+            scanf("%f", &precios.suite);
         } while (precios.suite <= 0);
     }
     else{
@@ -304,7 +305,7 @@ int modificarPrecios(){
         return 0;
     }
 
-    fseek(archiPrecios, 0, SEEK_SET);
+    fseek(archiPrecios, -sizeof(stPrecios), SEEK_CUR);
 
     if (fwrite(&precios, sizeof(stPrecios), 1, archiPrecios) != 1){
         fclose(archiPrecios);
@@ -312,8 +313,38 @@ int modificarPrecios(){
     }
 
     fclose(archiPrecios);
+
+
+    FILE *archHab = fopen("habitaciones", "r+b");
+    if (archHab != NULL) {
+        stHabitacion hab;
+
+        while (fread(&hab, sizeof(stHabitacion), 1, archHab) == 1) {
+            int huboCambio = 0;
+
+            if (strcmp(hab.tipo, "simple") == 0 && opcion == 1) {
+                hab.precioxNoche = precios.simple;
+                huboCambio = 1;
+            } else if (strcmp(hab.tipo, "doble") == 0 && opcion == 2) {
+                hab.precioxNoche = precios.doble;
+                huboCambio = 1;
+            } else if (strcmp(hab.tipo, "suite") == 0 && opcion == 3) {
+                hab.precioxNoche = precios.suite;
+                huboCambio = 1;
+            }
+
+            if (huboCambio == 1) {
+                fseek(archHab, -sizeof(stHabitacion), SEEK_CUR);
+                fwrite(&hab, sizeof(stHabitacion), 1, archHab);
+                fseek(archHab, 0, SEEK_CUR); // Limpia el buffer de posición del archivo
+            }
+        }
+        fclose(archHab);
+    }
+
     return 1;
 }
+
 
 void ordenarArchivoHabitaciones(){
     FILE *archHab = fopen("habitaciones", "rb+");

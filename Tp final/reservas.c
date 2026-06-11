@@ -4,6 +4,7 @@
 #include "habitacion.h"
 #include "huesped.h"
 #include "string.h"
+#include "pila.h"
 
 int generarId(){
     FILE *arch = fopen("reservas", "rb+");
@@ -207,7 +208,7 @@ int altaReserva(){
     return 1;
 }
 
-int bajaReserva(int id_reserva){
+int bajaReserva(int id_reserva, Pila *pilaEliminados){
     FILE *archRes = fopen("reservas", "rb");
     FILE *archB = fopen("archAux", "wb");
 
@@ -225,13 +226,14 @@ int bajaReserva(int id_reserva){
             fwrite(&reserva, sizeof(stReserva), 1, archB);
         }
         else{
+            apilar(pilaEliminados, reserva.idReserva);
+            int posHab = buscarxNumero(reserva.numHabitacion);
 
             FILE *archHab = fopen("habitaciones", "rb+");
 
             if(archHab != NULL){
 
                 stHabitacion habitacion;
-                int posHab = buscarxNumero(reserva.numHabitacion);
 
                 if(posHab != -1){
 
@@ -246,6 +248,7 @@ int bajaReserva(int id_reserva){
 
                 fclose(archHab);
             }
+            break;
         }
     }
 
@@ -339,13 +342,14 @@ int listadoReservas(){
     stHabitacion habitacion;
     stReserva reserva;
 
+    int cantidadReservas=0;
+
     while(fread(&reserva, sizeof(stReserva), 1, archRes) > 0){
+
+        cantidadReservas++;
 
         int posHab = buscarxNumero(reserva.numHabitacion);
 
-        if(posHab == -1){
-            continue;
-        }
 
         fseek(archHab, posHab * sizeof(stHabitacion), SEEK_SET);
         fread(&habitacion, sizeof(stHabitacion), 1, archHab);
@@ -358,6 +362,10 @@ int listadoReservas(){
         printf("Precio por noche: $%.2f\n", habitacion.precioxNoche);
         printf("Cantidad de noches: %i\n", reserva.cantNoches);
         printf("TOTAL: $%.2f\n", reserva.total);
+    }
+
+    if(cantidadReservas == 0){
+        printf("\nNo hay reservas cargadas en el sistema.\n");
     }
 
     fclose(archHab);

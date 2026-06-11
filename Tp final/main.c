@@ -3,6 +3,8 @@
 #include "huesped.h"
 #include "habitacion.h"
 #include "reservas.h"
+#include "pila.h"
+
 void menuReservas();
 void menuHuesped();
 void menuHabitacion();
@@ -10,7 +12,7 @@ int main()
 {
     int opcion1=1;
     printf("----------HOTEL 'LAS SOBREVIVIENTES'----------");
-    printf("\n **|Bienvenido al sistema de gestion del hotel 'las sobrevivientes'. A continuacion podra elegir que acciones realizar.|**");
+    printf("\n **|Bienvenido al sistema de toma de reservas del hotel 'las sobrevivientes'. A continuacion podra elegir que acciones realizar.|**");
     while (opcion1!=0)
     {
         printf("\n1- Gestionar Huespedes \n2- Gestionar Habitaciones \n3- Gestionar Reservas \n0- salir del sistema de gestion \nOpcion:");
@@ -38,12 +40,11 @@ int main()
     return 0;
 }
 
-
-
-
 void menuReservas(){
 
     int opcion;
+    Pila pilaeliminados;
+    inicpila(&pilaeliminados);
 
     do{
         printf("\n--- GESTION DE RESERVAS ---\n");
@@ -51,6 +52,7 @@ void menuReservas(){
         printf("2- Baja de reserva\n");
         printf("3- Buscar reserva\n");
         printf("4- Mostrar reservas\n");
+        printf("5- Eliminados del dia\n");
         printf("0- Volver\n");
         printf("Opcion: ");
         scanf("%d", &opcion);
@@ -65,15 +67,16 @@ void menuReservas(){
 
             case 2:
                 printf("\n-----Dar de baja una Reserva-----\n");
-                    int numm, verificar;
+                    int numm, verificar=1;
                     while (verificar!=0){
-                            printf("\ID de reserva que quiere eliminar: \n");
+                            printf("\nID de reserva que quiere eliminar: \n");
                             if (scanf("%d", &numm) != 1 || getchar() != '\n'){
                                 printf("Formato no valido\n");
                                 while (getchar() != '\n'); //limpio el buffer
                             }
                             else {
-                                bajaReserva(numm);
+                                bajaReserva(numm,&pilaeliminados);
+                                verificar=0;
                             }
                     }
 
@@ -82,17 +85,20 @@ void menuReservas(){
 
             case 3:
                 printf("\n-----Buscar una reserva-----\n");
-                    int id, verificar1, res;
+                    int id, verificar1=1, res;
                     while (verificar1!=0){
-                            printf("\ID de reserva que quiere buscar: \n");
+                            printf("\nID de reserva que quiere buscar: \n");
                             if (scanf("%d", &id) != 1 || getchar() != '\n'){
                                 printf("Formato no valido\n");
                                 while (getchar() != '\n'); //limpio el buffer
                             }
                             else {
                                 res= mostrarUnaReserva(id);
-                                if (res=-1){
+                                if (res==-1){
                                     printf("error del archivo");
+                                }
+                                else{
+                                    verificar1=0;
                                 }
                             }
                     }
@@ -106,7 +112,12 @@ void menuReservas(){
                     printf("\n");
 
                 break;
-
+            case 5:
+                printf("\n-----Mostrar eliminados del dia-----\n");
+                //Se guarda solo en tiempo de ejecucion porque es informacion que despues no se necesita
+                    mostrar(&pilaeliminados);
+                    printf("\n");
+                break;
             case 0:
                 break;
 
@@ -128,8 +139,8 @@ char dniBuscar[9];
                 printf("    1-Registrar huesped\n");
                 printf("    2-Eliminar husped\n");
                 printf("    3-Editar datos del huesped\n");
-                printf("    4-Buscar huesped\n");
-                printf("    5-Listados de hueped\n");
+                printf("    4-Listados de hueped\n");
+                printf("    5-Lista ordenada\n");
                 printf("    0-Volver al menu principal\n");
                 printf("Opcion: ");
                 scanf("%i", &opcion);
@@ -181,9 +192,13 @@ char dniBuscar[9];
                     modificarDatos(dniBuscar);
 
                     break;
-                case 5:
+                case 4:
                     printf("\n---LISTA DE HUESPED--\n");
                     mostrarRegistro();
+                    break;
+                case 5:
+                    printf("\n--LISTA ORDENADA--\n");
+                    listarHuespedesOrdenados();
                     break;
                 case 0:
                     break;
@@ -204,7 +219,7 @@ printf("\n----------------------------------------------------------------------
             printf("\n aca las opciones para que gestione las habitaciones del hotel: \n");
             while (opcion1hb!=0)
             {
-                printf("\n  1-Dar de alta una habitacion \n 2-Dar de baja una habitacion \n 3-Modificar datos de una habitacion \n  4-Busqueda Especifica \n    5-Ver listado \n    0- Volver al menu principal \n Opcion: ");
+                printf("\n1-Dar de alta una habitacion \n2-Dar de baja una habitacion \n3-Modificar precio de las habitaciones \n4-Busqueda Especifica \n5-Ver listado \n 0- Volver al menu principal \n Opcion: ");
                 scanf("%i",&opcion1hb);
                 switch(opcion1hb)
                 {
@@ -216,7 +231,7 @@ printf("\n----------------------------------------------------------------------
                     break;
                 case 2:
                     printf("\n-----Dar de baja una habitacion-----\n");
-                    int num, corroborar;
+                    int num, corroborar=1;
                     while (corroborar!=0){
                             printf("\nNumero de habitacion que quiere eliminar: \n");
                             if (scanf("%d", &num) != 1 || getchar() != '\n'){
@@ -225,6 +240,7 @@ printf("\n----------------------------------------------------------------------
                             }
                             else {
                             bajaHabitacion(num);
+                            corroborar=0;
                             }
                     }
 
