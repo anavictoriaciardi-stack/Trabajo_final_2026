@@ -3,7 +3,7 @@
 
 typedef struct{
     int numero;
-    char tipo[10];//(simple/doble/suite)
+    char tipo[50];//(simple/doble/suite)
     float precioxNoche;
     char estado[8]; //(libre/ocupada)
 }stHabitacion;

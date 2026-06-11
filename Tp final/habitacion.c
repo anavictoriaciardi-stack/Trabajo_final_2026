@@ -1,43 +1,50 @@
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "string.h"
+#include <string.h>
 #include "habitacion.h"
 
 int altaHabitacion(){
-    FILE *archivo = fopen("habitaciones", "ab+");
+    FILE *archHab = fopen("habitaciones", "r+b");
+
+    if (archHab == NULL) {
+        archHab = fopen("habitaciones", "w+b");
+        if (archHab == NULL) {
+            printf("Error al crear archivo\n");
+            return 0;
+        }
+    }
+
     stHabitacion habitacion;
 
-    /* Defino e inicializo 'continuar' para los diferentes while
-    En primera instancia defino el numero de habitacion, corroborra que sea solo un numero
-    y que si ya hay habitacion con ese numero que no se pueda cargar*/
-
     int continuar = 0;
+
     while (continuar == 0){
         int nro = 0;
         int existe = 0;
+
         printf("\nNumero de habitacion: ");
-        if (scanf("%d", &nro) != 1 || getchar() != '\n'){
+
+        if (scanf("%d", &nro) != 1){
             printf("Formato no valido\n");
             while (getchar() != '\n');
-            //uso getchar() para corroborrar que sea solo numeros y limpiar el buffer
-        }
-        else{
-            if (nro < 0){
+        } else {
+            while (getchar() != '\n');
+
+            if (nro <= 0){
                 printf("Numero no valido\n");
-            }
-            else{
-                fseek(archivo, 0, SEEK_SET);
-                while (fread(&habitacion, sizeof(stHabitacion), 1, archivo) > 0){
+            } else {
+                rewind(archHab);
+
+                while (fread(&habitacion, sizeof(stHabitacion), 1, archHab) == 1){
                     if (habitacion.numero == nro){
                         existe = 1;
                         break;
                     }
                 }
+
                 if (existe == 1){
                     printf("Esa habitacion ya fue cargada\n");
-                }
-                else{
+                } else {
                     habitacion.numero = nro;
                     continuar = 1;
                 }
@@ -45,18 +52,19 @@ int altaHabitacion(){
         }
     }
 
-    /*Vuelvo continuar a 0 para seguir con el tipo y no tener que inicializar mas variables con la misma funcion
-    En este caso, el usuario tiene que ingresar una de la opciones (int) para establecer de que tipo es la habitacion*/
-
     continuar = 0;
+
     while (continuar == 0){
         int tipo;
+
         printf("\nTipo de habitacion: \n1-Simple \n2-Doble \n3-Suite \nIngrese el tipo: ");
-        if (scanf("%d", &tipo) != 1 || getchar() != '\n'){
+
+        if (scanf("%d", &tipo) != 1){
             printf("Formato no valido\n");
-            while (getchar() != '\n'); //limpio el buffer
-        }
-        else{
+            while (getchar() != '\n');
+        } else {
+            while (getchar() != '\n');
+
             stPrecios auxPrecios;
             FILE *archiPrecios = fopen("precios", "rb");
 
@@ -70,8 +78,7 @@ int altaHabitacion(){
                     fwrite(&auxPrecios, sizeof(stPrecios), 1, archiPrecios);
                     fclose(archiPrecios);
                 }
-            }
-            else{
+            } else {
                 fread(&auxPrecios, sizeof(stPrecios), 1, archiPrecios);
                 fclose(archiPrecios);
             }
@@ -92,112 +99,149 @@ int altaHabitacion(){
                 continuar = 1;
             }
             else{
-                printf("\nDato ingresado no valido, intente nuevamente\n");
+                printf("Dato invalido\n");
             }
         }
     }
-    /*Para simplicar el proceso, el precio se define arriba al definir el tipo
-    y al usuario se le da la opcion de actualizarlo en otra funcion de modificacion*/
-
-    printf("\nEl precio de la habitacion se define por el tipo de habitacion.\n Si desea cambiar el precio del tipo de habitacion,\nvuelva al menu de gestion de habitaciones y elija la opcion modificar datos y luego modificar precios.");
-
-    /*Al crear la habitacion auotomaticamente se establece como libre*/
 
     strcpy(habitacion.estado, "Libre");
 
-    fwrite(&habitacion, sizeof(stHabitacion), 1, archivo);
-    fclose(archivo);
+    if (fwrite(&habitacion, sizeof(stHabitacion), 1, archHab) != 1){
+        printf("Error al guardar la habitacion\n");
+        fclose(archHab);
+        return 0;
+    }
+
+    fclose(archHab);
     return 1;
 }
-int listadoCompleto (){
 
+int listadoCompleto(){
     ordenarArchivoHabitaciones();
 
-    FILE *archivo = fopen("habitaciones", "rb");
+    FILE *archHab = fopen("habitaciones", "rb");
+
+    if (archHab == NULL){
+        printf("No hay habitaciones cargadas\n");
+        return 0;
+    }
+
     stHabitacion habitacion;
-    while (fread(&habitacion, sizeof(stHabitacion), 1, archivo) > 0){
+
+    while (fread(&habitacion, sizeof(stHabitacion), 1, archHab) == 1){
         printf("\n------------------------------------------------");
         printf("\nNumero de habitacion: %i", habitacion.numero);
         printf("\nTipo de habitacion: %s", habitacion.tipo);
         printf("\nPrecio por noche: $%.2f", habitacion.precioxNoche);
         printf("\nEstado: %s", habitacion.estado);
     }
-    fclose(archivo);
+
+    fclose(archHab);
+    return 1;
 }
+
 int bajaHabitacion(int num){
-    FILE *archivo = fopen("habitaciones", "rb");
-    FILE *aux = fopen("auxiliar", "wb"); //creo un auxiliar para copiar los datos
+    FILE *archHab = fopen("habitaciones", "rb");
+    FILE *aux = fopen("auxiliar", "wb");
 
-    stHabitacion habitacion;
-    int i = 0;
-    int pos=0;
-    pos= buscarxNumero(num);
-    if (pos==-1){
-        printf("Habitacion no encontrada");
-        fclose(archivo);
-        fclose(aux);
-
-        remove("auxiliar");
-
+    if (archHab == NULL || aux == NULL){
+        printf("Error al abrir archivos\n");
         return 0;
     }
-    else {
-        while (fread(&habitacion, sizeof(stHabitacion), 1, archivo) > 0){
 
+    stHabitacion habitacion;
+
+    int pos = buscarxNumero(num);
+
+    if (pos == -1){
+        printf("Habitacion no encontrada\n");
+        fclose(archHab);
+        fclose(aux);
+        remove("auxiliar");
+        return 0;
+    }
+
+    fseek(archHab, pos * sizeof(stHabitacion), SEEK_SET);
+
+    if (fread(&habitacion, sizeof(stHabitacion), 1, archHab) != 1){
+        fclose(archHab);
+        fclose(aux);
+        remove("auxiliar");
+        return 0;
+    }
+
+    if (strcmp(habitacion.estado, "Ocupado") == 0){
+        printf("No se puede eliminar una habitacion ocupada\n");
+        fclose(archHab);
+        fclose(aux);
+        remove("auxiliar");
+        return 0;
+    }
+
+    rewind(archHab);
+
+    int i = 0;
+
+    while (fread(&habitacion, sizeof(stHabitacion), 1, archHab) == 1){
         if (i != pos){
             fwrite(&habitacion, sizeof(stHabitacion), 1, aux);
         }
-
         i++;
     }
-    }
 
-
-    fclose(archivo);
+    fclose(archHab);
     fclose(aux);
 
     remove("habitaciones");
-    rename("auxiliar", "habitaciones"); //renombro para seguir usando la gestion
+    rename("auxiliar", "habitaciones");
 
     return 1;
 }
+
 int buscarxNumero(int nroBuscado){
-    FILE *archivo = fopen("habitaciones", "rb");
+    FILE *archHab = fopen("habitaciones", "rb");
+
     stHabitacion habitacion;
     int pos = 0;
     int encontrada = -1;
 
-    if (archivo != NULL){
-        while (fread(&habitacion, sizeof(stHabitacion), 1, archivo) > 0){
+    if (archHab != NULL){
+        while (fread(&habitacion, sizeof(stHabitacion), 1, archHab) == 1){
             if (habitacion.numero == nroBuscado){
                 encontrada = pos;
                 break;
             }
             pos++;
         }
-        fclose(archivo);
+        fclose(archHab);
     }
 
     return encontrada;
 }
-int buscarHabitacionxnum(int num){
-    FILE *archivo = fopen("habitaciones", "rb");
 
-    if(archivo == NULL){
+int buscarHabitacionxnum(int num){
+    FILE *archHab = fopen("habitaciones", "rb");
+
+    if (archHab == NULL){
         return 0;
     }
 
     stHabitacion habitacion;
+
     int pos = buscarxNumero(num);
 
-    if(pos == -1){
+    if (pos == -1){
         printf("Habitacion no encontrada\n");
-        fclose(archivo);
+        fclose(archHab);
         return 0;
     }
 
-    fseek(archivo, pos * sizeof(stHabitacion), SEEK_SET);
-    fread(&habitacion, sizeof(stHabitacion), 1, archivo);
+    fseek(archHab, pos * sizeof(stHabitacion), SEEK_SET);
+
+    if (fread(&habitacion, sizeof(stHabitacion), 1, archHab) != 1){
+        fclose(archHab);
+        return 0;
+    }
 
     printf("\n------------------------------------------------");
     printf("\nNumero de habitacion: %i", habitacion.numero);
@@ -205,77 +249,107 @@ int buscarHabitacionxnum(int num){
     printf("\nPrecio por noche: $%.2f", habitacion.precioxNoche);
     printf("\nEstado: %s\n", habitacion.estado);
 
-    fclose(archivo);
-
+    fclose(archHab);
     return 1;
 }
+
 int modificarPrecios(){
     FILE *archiPrecios = fopen("precios", "rb+");
-    if(archiPrecios == NULL){
+
+    if (archiPrecios == NULL){
         printf("No se pudo abrir el archivo\n");
         return 0;
     }
 
     stPrecios precios;
-    fread(&precios, sizeof(stPrecios), 1, archiPrecios);
-    int opcion;
-    printf("\nPrecio a cambiar:\n1-Simple \n2-Doble \n3-suite");
-    scanf("%d", &opcion);
 
-    if(opcion == 1){
-        printf("Nuevo costo de la habitacion: ");
-        scanf("%d", &precios.simple);
+    if (fread(&precios, sizeof(stPrecios), 1, archiPrecios) != 1){
+        fclose(archiPrecios);
+        return 0;
     }
-    else if(opcion == 2){
-        printf("Nuevo costo de la habitacion: ");
-        scanf("%d", &precios.doble);
+
+    int opcion;
+
+    printf("\nPrecio a cambiar:");
+    printf("\n1-Simple");
+    printf("\n2-Doble");
+    printf("\n3-Suite");
+    printf("\nOpcion: ");
+
+    if (scanf("%d", &opcion) != 1){
+        fclose(archiPrecios);
+        return 0;
     }
-    else if(opcion == 3){
-        printf("Nuevo costo de la habitacion: ");
-        scanf("%d", &precios.suite);
+
+    if (opcion == 1){
+        do{
+            printf("Nuevo costo simple: ");
+            scanf("%d", &precios.simple);
+        } while (precios.simple <= 0);
+    }
+    else if (opcion == 2){
+        do{
+            printf("Nuevo costo doble: ");
+            scanf("%d", &precios.doble);
+        } while (precios.doble <= 0);
+    }
+    else if (opcion == 3){
+        do{
+            printf("Nuevo costo suite: ");
+            scanf("%d", &precios.suite);
+        } while (precios.suite <= 0);
     }
     else{
-        printf("Opcion no valida\n");
         fclose(archiPrecios);
         return 0;
     }
 
     fseek(archiPrecios, 0, SEEK_SET);
-    fwrite(&precios, sizeof(stPrecios), 1, archiPrecios);
+
+    if (fwrite(&precios, sizeof(stPrecios), 1, archiPrecios) != 1){
+        fclose(archiPrecios);
+        return 0;
+    }
 
     fclose(archiPrecios);
-
     return 1;
 }
 
-void ordenarArchivoHabitaciones() {
-    FILE *archivo = fopen("habitaciones", "rb+");
+void ordenarArchivoHabitaciones(){
+    FILE *archHab = fopen("habitaciones", "rb+");
 
-    if (archivo == NULL) {
+    if (archHab == NULL){
         return;
     }
 
-    fseek(archivo, 0, SEEK_END);
-    int cant = ftell(archivo) / sizeof(stHabitacion);
+    fseek(archHab, 0, SEEK_END);
+    int cant = ftell(archHab) / sizeof(stHabitacion);
+
+    if (cant <= 0){
+        fclose(archHab);
+        return;
+    }
 
     stHabitacion *habitaciones = malloc(cant * sizeof(stHabitacion));
 
-    if (habitaciones == NULL) {
-        fclose(archivo);
+    if (habitaciones == NULL){
+        fclose(archHab);
         return;
     }
 
-    rewind(archivo);
-    fread(habitaciones, sizeof(stHabitacion), cant, archivo);
+    rewind(archHab);
 
-    // Inserción
+    if (fread(habitaciones, sizeof(stHabitacion), cant, archHab) != cant){
+        free(habitaciones);
+        fclose(archHab);
+        return;
+    }
 
-    for (int i = 1; i < cant; i++) {
-
+    for (int i = 1; i < cant; i++){
         stHabitacion aux = habitaciones[i];
         int j = i - 1;
 
-        while (j >= 0 && habitaciones[j].numero > aux.numero) {
+        while (j >= 0 && habitaciones[j].numero > aux.numero){
             habitaciones[j + 1] = habitaciones[j];
             j--;
         }
@@ -283,9 +357,14 @@ void ordenarArchivoHabitaciones() {
         habitaciones[j + 1] = aux;
     }
 
-    rewind(archivo);
-    fwrite(habitaciones, sizeof(stHabitacion), cant, archivo);
+    rewind(archHab);
+
+    if (fwrite(habitaciones, sizeof(stHabitacion), cant, archHab) != cant){
+        free(habitaciones);
+        fclose(archHab);
+        return;
+    }
 
     free(habitaciones);
-    fclose(archivo);
+    fclose(archHab);
 }
