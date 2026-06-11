@@ -1,12 +1,3 @@
-/*
-    Huésped
-    Int DNI
-    char nombreyApellido [ ]
-    int teléfono
-    char email []
-
-    listado: todos o por apellido
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "huesped.h"
@@ -15,7 +6,7 @@
 
 int altaHuesped()
 {
-    FILE *arch=fopen("archHuesped", "ab");
+    FILE *arch=fopen("archHuesped", "wb");
     stHuesped huesped;
 
     int seguir=1, control, val, enconDNI, enconEMAIL;
@@ -112,7 +103,6 @@ int DNIexiste(char DNI[]){
 }
 
      while(fread(&huesped, sizeof(stHuesped), 1, arch) > 0 && encontrado == 0){
-            printf("Leyendo DNI: %s\n", huesped.DNI);
             if(strcmp(huesped.DNI, DNI) == 0){
                 encontrado = 1;
             }
@@ -278,15 +268,27 @@ fclose(arch);
 return 1;
 }
 
-void mostrarRegistro(stHuesped huesped){
+void mostrarRegistro(){
+FILE *arch=fopen("archHuesped", "rb");
+stHuesped huesped;
 
+    if(arch != NULL){
+        mostrarHuesped(arch);
+        fclose(arch);
+    };
 }
 
-
-
-
-
-
+void mostrarHuesped(FILE *arch){
+stHuesped huesped;
+if(fread(&huesped, sizeof(stHuesped),1,arch)>0){
+    printf("\n-----------------\n");
+    printf("    Nombre y Apellido: %s\n", huesped.NombreYApelido);
+    printf("    DNI: %s\n", huesped.DNI);
+    printf("    Telefono: %lld\n", huesped.telefono);
+    printf("    Email: %s", huesped.email);
+    mostrarHuesped(arch);
+}
+}
 
 
 

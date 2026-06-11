@@ -26,30 +26,34 @@
 
 1780326024 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.h
 
-1781048094 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.c
+1781127519 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.c
 	<stdio.h>
 	<stdlib.h>
 	"string.h"
 	"habitacion.h"
 
-1781048094 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.h
+1781125449 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.h
 
-1780874120 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.c
+1781134725 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	<string.h>
 
-1780871559 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\main.c
+1781134922 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\main.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	"habitacion.h"
 	"reservas.h"
 
-1780871559 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.h
+1781131246 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.h
 
-1780326999 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.h
+1781143708 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.h
 
-1780522399 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.c
+1781144333 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.c
+	<stdio.h>
+	<stdlib.h>
+	"reservas.h"
+	"habitacion.h"
 

@@ -13,4 +13,6 @@ int bajaHuesped(char DNIbus[]);
 int DNIexiste(char DNI[]);
 int EMAILexiste(char EMAIL[]);
 int modificarDatos(char dniBus[] );
+void mostrarRegistro();
+void mostrarHuesped(FILE *arch);
 #endif // HUESPED_H_INCLUDED

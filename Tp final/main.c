@@ -3,12 +3,12 @@
 #include "huesped.h"
 #include "habitacion.h"
 #include "reservas.h"
-
+void menuReservas();
+void menuHuesped();
+void menuHabitacion();
 int main()
 {
-     printf("Entre al main\n");
-    int opcion1=1, opHuesped, val;
-    char dniBuscar[8];
+    int opcion1=1;
     printf("----------HOTEL 'LAS SOBREVIVIENTES'----------");
     printf("\n **|Bienvenido al sistema de gestion del hotel 'las sobrevivientes'. A continuacion podra elegir que acciones realizar.|**");
     while (opcion1!=0)
@@ -18,8 +18,81 @@ int main()
         switch (opcion1)
         {
         case 1:
-            opHuesped=1;
-            while(opHuesped!=0)
+            menuHuesped();
+            break;
+        case 2:
+            menuHabitacion();
+            break;
+        case 3:
+            menuReservas();
+            break;
+        case 0:
+            printf("Salio del sistema de gestion del hotel. Muchas gracias por utilizarlo.");
+            break;
+        default:
+            printf("Error. Ingreso mal un dato. Vuelvalo a intentar");
+            break;
+        }
+    }
+
+    return 0;
+}
+
+
+
+
+void menuReservas(){
+
+    int opcion;
+
+    do{
+        printf("\n--- GESTION DE RESERVAS ---\n");
+        printf("1- Alta de reserva\n");
+        printf("2- Baja de reserva\n");
+        printf("3- Modificar reserva\n");
+        printf("4- Buscar reserva\n");
+        printf("5- Mostrar reservas\n");
+        printf("0- Volver\n");
+        printf("Opcion: ");
+        scanf("%d", &opcion);
+
+        switch(opcion){
+
+            case 1:
+                altaReserva();
+                break;
+
+            case 2:
+                // bajaReserva();
+                break;
+
+            case 3:
+                // modificarReserva();
+                break;
+
+            case 4:
+                // buscarReserva();
+                break;
+
+            case 5:
+                // mostrarReservas();
+                break;
+
+            case 0:
+                break;
+
+            default:
+                printf("Opcion invalida\n");
+        }
+
+    }while(opcion != 0);
+}
+
+
+void menuHuesped(){
+int opcion, val;
+char dniBuscar[9];
+            while(opcion!=0)
             {
                 printf("\n---------------------------------------------------------------------------------------------------\n");
                 printf("\n GESTION DE HUSPEDES\n");
@@ -30,9 +103,9 @@ int main()
                 printf("    5-Listados de hueped\n");
                 printf("    0-Volver al menu principal\n");
                 printf("Opcion: ");
-                scanf("%i", &opHuesped);
+                scanf("%i", &opcion);
 
-                switch(opHuesped)
+                switch(opcion)
                 {
                 case 1:
                     altaHuesped();
@@ -79,6 +152,10 @@ int main()
                     modificarDatos(dniBuscar);
 
                     break;
+                case 5:
+                    printf("\n---LISTA DE HUESPED--\n");
+                    mostrarRegistro();
+                    break;
                 case 0:
                     break;
                 default:
@@ -87,9 +164,12 @@ int main()
                 }
             }
 
-            break;
-        case 2:
-            printf("\n---------------------------------------------------------------------------------------------------\n");
+
+}
+
+void menuHabitacion(){
+
+printf("\n---------------------------------------------------------------------------------------------------\n");
             int opcion1hb=1;
             printf("\n GESTION DE HABITACIONES\n");
             printf("\n aca las opciones para que gestione las habitaciones del hotel: \n");
@@ -153,19 +233,4 @@ int main()
                 }
             }
 
-            break;
-        case 3:
-            printf("\n---------------------------------------------------------------------------------------------------\n");
-            printf("\n GESTION DE RESERVAS\n");
-            break;
-        case 0:
-            printf("Salio del sistema de gestion del hotel. Muchas gracias por utilizarlo.");
-            break;
-        default:
-            printf("Error. Ingreso mal un dato. Vuelvalo a intentar");
-            break;
-        }
-    }
-
-    return 0;
 }
