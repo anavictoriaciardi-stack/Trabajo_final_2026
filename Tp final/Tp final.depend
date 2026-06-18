@@ -35,7 +35,7 @@
 1781181372 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.h
 	"pila.h"
 
-1781170468 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.c
+1781743273 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -43,34 +43,43 @@
 
 1781170468 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.h
 
-1781170468 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.c
+1781749242 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	<string.h>
 
-1781170660 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\main.c
+1781749629 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\main.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	"habitacion.h"
 	"reservas.h"
+	"pila.h"
 
-1781148904 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.h
+1781743273 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.h
 
-1781170468 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.h
+1781743273 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.h
+	"pila.h"
 
-1781171452 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.c
+1781743273 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.c
 	<stdio.h>
 	<stdlib.h>
 	"reservas.h"
 	"habitacion.h"
 	"huesped.h"
 	"string.h"
+	"pila.h"
 
 1781178593 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\pila.c
 	<stdio.h>
 	"pila.h"
 
 1781178593 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\pila.h
+
+1781743273 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\pila.h
+
+1781743273 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\pila.c
+	<stdio.h>
+	"pila.h"
 

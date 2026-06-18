@@ -10,13 +10,21 @@ void menuHuesped();
 void menuHabitacion();
 int main()
 {
-    int opcion1=1;
+    int opcion1=1, control;
     printf("----------HOTEL 'LAS SOBREVIVIENTES'----------");
     printf("\n **|Bienvenido al sistema de toma de reservas del hotel 'las sobrevivientes'. A continuacion podra elegir que acciones realizar.|**");
     while (opcion1!=0)
     {
         printf("\n1- Gestionar Huespedes \n2- Gestionar Habitaciones \n3- Gestionar Reservas \n0- salir del sistema de gestion \nOpcion:");
-        scanf("%i", &opcion1);
+        control=scanf("%i", &opcion1);
+        if(control != 1)
+    {
+        printf("\nError. Debe ingresar un numero.\n");
+
+        while(getchar() != '\n');
+
+        continue;
+    }
         switch (opcion1)
         {
         case 1:
@@ -42,7 +50,7 @@ int main()
 
 void menuReservas(){
 
-    int opcion;
+    int opcion, control;
     Pila pilaeliminados;
     inicpila(&pilaeliminados);
 
@@ -55,7 +63,15 @@ void menuReservas(){
         printf("5- Eliminados del dia\n");
         printf("0- Volver\n");
         printf("Opcion: ");
-        scanf("%d", &opcion);
+        control=scanf("%d", &opcion);
+         if(control != 1)
+    {
+        printf("\nError. Debe ingresar un numero.\n");
+
+        while(getchar() != '\n');
+
+        continue;
+    }
 
         switch(opcion){
 
@@ -130,7 +146,7 @@ void menuReservas(){
 
 
 void menuHuesped(){
-int opcion, val;
+int opcion=1, val, control;
 char dniBuscar[9];
             while(opcion!=0)
             {
@@ -143,8 +159,15 @@ char dniBuscar[9];
                 printf("    5-Lista ordenada\n");
                 printf("    0-Volver al menu principal\n");
                 printf("Opcion: ");
-                scanf("%i", &opcion);
+                control= scanf("%i", &opcion);
+                 if(control != 1)
+    {
+        printf("\nError. Debe ingresar un numero.\n");
 
+        while(getchar() != '\n');
+
+        continue;
+    }
                 switch(opcion)
                 {
                 case 1:
@@ -214,13 +237,21 @@ char dniBuscar[9];
 void menuHabitacion(){
 
 printf("\n---------------------------------------------------------------------------------------------------\n");
-            int opcion1hb=1;
+            int opcion1hb=1, control;
             printf("\n GESTION DE HABITACIONES\n");
             printf("\n aca las opciones para que gestione las habitaciones del hotel: \n");
             while (opcion1hb!=0)
             {
                 printf("\n1-Dar de alta una habitacion \n2-Dar de baja una habitacion \n3-Modificar precio de las habitaciones \n4-Busqueda Especifica \n5-Ver listado \n 0- Volver al menu principal \n Opcion: ");
-                scanf("%i",&opcion1hb);
+                control=scanf("%i",&opcion1hb);
+                 if(control != 1)
+    {
+        printf("\nError. Debe ingresar un numero.\n");
+
+        while(getchar() != '\n');
+
+        continue;
+    }
                 switch(opcion1hb)
                 {
                 case 1:
