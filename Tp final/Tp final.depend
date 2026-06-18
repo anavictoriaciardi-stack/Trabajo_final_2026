@@ -5,13 +5,13 @@
 	<string.h>
 	"habitacion.h"
 
-1781183570 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\huesped.c
+1781752191 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\huesped.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
 	<string.h>
 
-1781182945 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.c
+1781756852 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\reservas.c
 	<stdio.h>
 	<stdlib.h>
 	"reservas.h"
@@ -22,7 +22,7 @@
 
 1781160026 c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\habitacion.h
 
-1781183874 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\main.c
+1781752191 source:c:\users\anita\onedrive\documentos\github\trabajo_final_2026\tp final\main.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"

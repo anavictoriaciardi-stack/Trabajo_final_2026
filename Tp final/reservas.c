@@ -6,18 +6,21 @@
 #include "string.h"
 #include "pila.h"
 
-int generarId(){
+int generarId()
+{
     FILE *arch = fopen("reservas", "rb+");
     stReserva reservas;
     int id = 1;
 
-    if(arch == NULL){
+    if(arch == NULL)
+    {
         return 1;
     }
 
     fseek(arch, 0, SEEK_SET);
 
-    while(fread(&reservas, sizeof(stReserva), 1, arch) == 1){
+    while(fread(&reservas, sizeof(stReserva), 1, arch) == 1)
+    {
         id = reservas.idReserva + 1;
     }
 
@@ -25,81 +28,136 @@ int generarId(){
     return id;
 }
 
-int altaReserva(){
+int altaReserva()
+{
 
     FILE *archRes = fopen("reservas", "ab+");
     stReserva reserva;
     stHabitacion habitacion;
 
-    if(archRes == NULL){
+    if(archRes == NULL)
+    {
         return 0;
     }
 
-    int pos, existeDNI, opcion, confirmar;
+    int pos, existeDNI, opcion, confirmar, len, val=1, go=0;
+    do {
+    val = 1;
 
     printf("DNI del huesped: ");
     scanf("%s", reserva.dniHuesped);
 
-    existeDNI = DNIexiste(reserva.dniHuesped);
-
-    if(!existeDNI){
-
-        printf("\n--No existe un huesped con ese DNI--\n");
-
-        do{
-            printf("Desea registrarlo?\n");
-            printf("1-SI\n");
-            printf("0-NO\n=");
-            scanf("%i", &opcion);
-
-            if(opcion != 0 && opcion != 1){
-                printf("\n--Opcion invalida--\n");
+    len = strlen(reserva.dniHuesped);
+    if (len != 8)
+    {
+        val = 0;
+    }
+    else
+    {
+        for (int i = 0; i < len; i++)
+        {
+            if (reserva.dniHuesped[i] < '0' || reserva.dniHuesped[i] > '9')
+            {
+                val = 0;
             }
-
-        }while(opcion != 0 && opcion != 1);
-
-        if(opcion == 1){
-
-            altaHuesped();
-
-            printf("\nIngrese nuevamente el DNI del huesped: ");
-            scanf("%s", reserva.dniHuesped);
-
-            if(!DNIexiste(reserva.dniHuesped)){
-                printf("\n--DNI inexistente--\n");
-                fclose(archRes);
-                return 0;
-            }
-
-        }else{
-            fclose(archRes);
-            return 0;
         }
     }
 
-    do{
+    if (val == 0)
+    {
+        printf("\n--DNI invalido--\n");
+        printf("Debe contener exactamente 8 digitos.\n");
+        go = 0;
+    }
+    else
+    {
+        existeDNI = DNIexiste(reserva.dniHuesped);
+
+        if(!existeDNI)
+        {
+            printf("\n--No existe un huesped con ese DNI--\n");
+
+            do
+            {
+                printf("Desea registrarlo?\n");
+                printf("1-SI\n");
+                printf("0-NO\n=");
+                scanf("%i", &opcion);
+
+                if(opcion != 0 && opcion != 1)
+                {
+                    printf("\n--Opcion invalida--\n");
+                }
+            } while(opcion != 0 && opcion != 1);
+
+            if(opcion == 1)
+            {
+                altaHuesped();
+
+                printf("\nIngrese nuevamente el DNI del huesped: ");
+                scanf("%s", reserva.dniHuesped);
+
+                if(!DNIexiste(reserva.dniHuesped))
+                {
+                    printf("\n--DNI inexistente--\n");
+                    fclose(archRes);
+                    return 0;
+                }
+                else
+                {
+                    go = 1;
+                }
+            }
+            else
+            {
+                fclose(archRes);
+                return 0;
+            }
+        }
+        else
+        {
+            go = 1;
+        }
+    }
+
+} while(go == 0);
+
+
+    do
+    {
         printf("Numero de habitacion: ");
-        scanf("%d", &reserva.numHabitacion);
+        if (scanf("%d", &reserva.numHabitacion) != 1 || getchar() != '\n')
+        {
+            printf("\n--Error: Debe ingresar unicamente un numero entero--\n");
+            while (getchar() != '\n'); // Limpia toda la cadena de texto restante
+            pos = -1;
+            continue;
+        }
 
         pos = buscarxNumero(reserva.numHabitacion);
 
-        if(pos == -1){
+        if(pos == -1)
+        {
 
             printf("\n--Habitacion inexistente--\n");
 
-            do{
+            do
+            {
                 printf("Desea registrarla?\n");
                 printf("1-SI\n");
                 printf("0-NO\n=");
                 scanf("%d", &opcion);
 
-                if(opcion != 0 && opcion != 1){
+                if(opcion != 0 && opcion != 1)
+                {
                     printf("\n--Opcion invalida--\n");
                 }
 
-            }while(opcion != 0 && opcion != 1);
+            }
+            while(opcion != 0 && opcion != 1);
 
-            if(opcion == 1){
+            if(opcion == 1)
+            {
 
                 altaHabitacion();
 
@@ -108,22 +166,26 @@ int altaReserva(){
 
                 pos = buscarxNumero(reserva.numHabitacion);
 
-                if(pos == -1){
+                if(pos == -1)
+                {
                     fclose(archRes);
                     return 0;
                 }
             }
-            else{
+            else
+            {
                 fclose(archRes);
                 return 0;
             }
         }
 
-    }while(pos == -1);
+    }
+    while(pos == -1);
 
     FILE *archHab = fopen("habitaciones", "rb+");
 
-    if(archHab == NULL){
+    if(archHab == NULL)
+    {
         fclose(archRes);
         return 0;
     }
@@ -131,35 +193,45 @@ int altaReserva(){
     fseek(archHab, pos * sizeof(stHabitacion), SEEK_SET);
     fread(&habitacion, sizeof(stHabitacion), 1, archHab);
 
-    while(strcmp(habitacion.estado, "Libre") != 0){
+    while(strcmp(habitacion.estado, "Libre") != 0)
+    {
 
         printf("\n--La habitacion esta ocupada--\n");
 
-        do{
+        do
+        {
             printf("Ingrese otra habitacion: ");
             scanf("%i", &reserva.numHabitacion);
 
             pos = buscarxNumero(reserva.numHabitacion);
 
-            if(pos == -1){
+            if(pos == -1)
+            {
                 printf("\n--Habitacion inexistente--\n");
             }
 
-        }while(pos == -1);
+        }
+        while(pos == -1);
 
         fseek(archHab, pos * sizeof(stHabitacion), SEEK_SET);
         fread(&habitacion, sizeof(stHabitacion), 1, archHab);
     }
 
-    do{
-        printf("Cantidad de noches: ");
-        scanf("%d", &reserva.cantNoches);
+do
+{
+    printf("Cantidad de noches: ");
+    if (scanf("%d", &reserva.cantNoches) != 1 || getchar() != '\n' || reserva.cantNoches <= 0)
+    {
+        printf("\n--Cantidad invalida--\n");
+        while (getchar() != '\n');
+        reserva.cantNoches = 0;
+        continue;
+    }
 
-        if(reserva.cantNoches <= 0){
-            printf("\n--Cantidad invalida--\n");
-        }
+} while(reserva.cantNoches <= 0);
 
-    }while(reserva.cantNoches <= 0);
+
+
 
     reserva.idReserva = generarId();
     reserva.total = habitacion.precioxNoche * reserva.cantNoches;
@@ -173,19 +245,23 @@ int altaReserva(){
     printf("Cantidad de noches: %i\n", reserva.cantNoches);
     printf("TOTAL: $%.2f\n", reserva.total);
 
-    do{
+    do
+    {
         printf("\nConfirmar reserva?\n");
         printf("1-SI\n");
         printf("0-NO\n=");
         scanf("%i", &confirmar);
 
-        if(confirmar != 0 && confirmar != 1){
+        if(confirmar != 0 && confirmar != 1)
+        {
             printf("\n--Opcion invalida--\n");
         }
 
-    }while(confirmar != 0 && confirmar != 1);
+    }
+    while(confirmar != 0 && confirmar != 1);
 
-    if(confirmar == 0){
+    if(confirmar == 0)
+    {
         printf("\n--Reserva cancelada--\n");
         fclose(archRes);
         fclose(archHab);
@@ -208,11 +284,13 @@ int altaReserva(){
     return 1;
 }
 
-int bajaReserva(int id_reserva, Pila *pilaEliminados){
+int bajaReserva(int id_reserva, Pila *pilaEliminados)
+{
     FILE *archRes = fopen("reservas", "rb");
     FILE *archB = fopen("archAux", "wb");
 
-    if(archRes == NULL || archB == NULL){
+    if(archRes == NULL || archB == NULL)
+    {
         if(archRes) fclose(archRes);
         if(archB) fclose(archB);
         return 0;
@@ -220,22 +298,27 @@ int bajaReserva(int id_reserva, Pila *pilaEliminados){
 
     stReserva reserva;
 
-    while(fread(&reserva, sizeof(stReserva), 1, archRes) == 1){
+    while(fread(&reserva, sizeof(stReserva), 1, archRes) == 1)
+    {
 
-        if(reserva.idReserva != id_reserva){
+        if(reserva.idReserva != id_reserva)
+        {
             fwrite(&reserva, sizeof(stReserva), 1, archB);
         }
-        else{
+        else
+        {
             apilar(pilaEliminados, reserva.idReserva);
             int posHab = buscarxNumero(reserva.numHabitacion);
 
             FILE *archHab = fopen("habitaciones", "rb+");
 
-            if(archHab != NULL){
+            if(archHab != NULL)
+            {
 
                 stHabitacion habitacion;
 
-                if(posHab != -1){
+                if(posHab != -1)
+                {
 
                     fseek(archHab, posHab * sizeof(stHabitacion), SEEK_SET);
                     fread(&habitacion, sizeof(stHabitacion), 1, archHab);
@@ -261,17 +344,21 @@ int bajaReserva(int id_reserva, Pila *pilaEliminados){
     return 1;
 }
 
-int buscarPosxID(int id_reserva){
+int buscarPosxID(int id_reserva)
+{
     FILE *archRes = fopen("reservas", "rb");
     stReserva reserva;
     int pos = 0;
 
-    if(archRes == NULL){
+    if(archRes == NULL)
+    {
         return -1;
     }
 
-    while(fread(&reserva, sizeof(stReserva), 1, archRes) > 0){
-        if(reserva.idReserva == id_reserva){
+    while(fread(&reserva, sizeof(stReserva), 1, archRes) > 0)
+    {
+        if(reserva.idReserva == id_reserva)
+        {
             fclose(archRes);
             return pos;
         }
@@ -282,12 +369,14 @@ int buscarPosxID(int id_reserva){
     return -1;
 }
 
-int mostrarUnaReserva(int id){
+int mostrarUnaReserva(int id)
+{
 
     FILE *archRes = fopen("reservas", "rb");
     FILE *archHab = fopen("habitaciones", "rb");
 
-    if(archRes == NULL || archHab == NULL){
+    if(archRes == NULL || archHab == NULL)
+    {
         if(archRes) fclose(archRes);
         if(archHab) fclose(archHab);
         return -1;
@@ -298,7 +387,8 @@ int mostrarUnaReserva(int id){
 
     int pos = buscarPosxID(id);
 
-    if(pos == -1){
+    if(pos == -1)
+    {
         fclose(archRes);
         fclose(archHab);
         return 0;
@@ -309,7 +399,8 @@ int mostrarUnaReserva(int id){
 
     int posHab = buscarxNumero(reserva.numHabitacion);
 
-    if(posHab != -1){
+    if(posHab != -1)
+    {
         fseek(archHab, posHab * sizeof(stHabitacion), SEEK_SET);
         fread(&habitacion, sizeof(stHabitacion), 1, archHab);
     }
@@ -329,11 +420,13 @@ int mostrarUnaReserva(int id){
     return 1;
 }
 
-int listadoReservas(){
+int listadoReservas()
+{
     FILE *archRes = fopen("reservas", "rb");
     FILE *archHab = fopen("habitaciones", "rb");
 
-    if(archRes == NULL || archHab == NULL){
+    if(archRes == NULL || archHab == NULL)
+    {
         if(archRes) fclose(archRes);
         if(archHab) fclose(archHab);
         return -1;
@@ -344,7 +437,8 @@ int listadoReservas(){
 
     int cantidadReservas=0;
 
-    while(fread(&reserva, sizeof(stReserva), 1, archRes) > 0){
+    while(fread(&reserva, sizeof(stReserva), 1, archRes) > 0)
+    {
 
         cantidadReservas++;
 
@@ -364,7 +458,8 @@ int listadoReservas(){
         printf("TOTAL: $%.2f\n", reserva.total);
     }
 
-    if(cantidadReservas == 0){
+    if(cantidadReservas == 0)
+    {
         printf("\nNo hay reservas cargadas en el sistema.\n");
     }
 
