@@ -43,7 +43,7 @@
 
 1781170468 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\habitacion.h
 
-1781749242 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.c
+1781783585 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\huesped.c
 	<stdio.h>
 	<stdlib.h>
 	"huesped.h"
@@ -62,7 +62,7 @@
 1781743273 c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.h
 	"pila.h"
 
-1781743273 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.c
+1781783234 source:c:\users\ghime\onedrive\escritorio\trabajo_final_2026\tp final\reservas.c
 	<stdio.h>
 	<stdlib.h>
 	"reservas.h"

@@ -8,15 +8,38 @@ int altaHuesped()
     FILE *arch = fopen("archHuesped", "a+b");
     stHuesped huesped;
 
-    int seguir = 1, control, val, enconDNI, enconEMAIL, len;
+    int seguir = 1, control, val,val1,  enconDNI, enconEMAIL, len;
     long long int min = 1000000000, max = 9999999999;
 
     while (seguir == 1)
     {
         printf("Complete los siguientes datos:\n");
-        printf("        Nombre y Apellido: ");
-        while (getchar() != '\n');
-        fgets(huesped.NombreYApelido, sizeof(huesped.NombreYApelido), stdin);
+        while(getchar() != '\n');
+        do
+        {
+            val1 = 1;
+
+            printf("        Nombre y Apellido: ");
+            fgets(huesped.NombreYApelido, sizeof(huesped.NombreYApelido), stdin);
+
+            int len = strlen(huesped.NombreYApelido);
+
+            for(int i = 0; i < len; i++)
+            {
+                if(huesped.NombreYApelido[i] >= '0' &&
+                        huesped.NombreYApelido[i] <= '9')
+                {
+                    val1 = 0;
+                }
+            }
+
+            if(val1== 0)
+            {
+                printf("\n--El nombre no puede contener numeros--\n");
+            }
+
+        }
+        while(val1 == 0);
 
         do
         {
@@ -274,7 +297,9 @@ int modificarDatos(char dniBus[])
         {
             printf("\nError. Debe ingresar un numero.\n");
             while(getchar() != '\n');
-        } else if(op < 1 || op > 4) {
+        }
+        else if(op < 1 || op > 4)
+        {
             printf("\nOpcion Invalida\n");
         }
     }
